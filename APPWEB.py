@@ -407,12 +407,26 @@ elif seccion == "Glosario":
             seleccion = None  
   
     with col_detalle:  
-        if seleccion:  
-            item = GLOSARIO[seleccion]  
-            st.markdown(f'''  
-            <div class="card">  
-                <span class="category-tag">{item["categoria"]}</span>  
-                <div class="term-title">{seleccion}</div>  
-                <div class="term-desc">{item["descripcion"]}</div>  
-            </div>  
-            ''', unsafe_allow_html=True)
+    if seleccion:  
+        item = GLOSARIO[seleccion]
+        ejemplo_html = ""
+        
+        # Verificar si el término tiene la clave 'ejemplo'
+        if "ejemplo" in item:
+            # Reemplazar saltos de línea por <br> para formatear HTML
+            texto_ejemplo = item["ejemplo"].replace("\n", "<br>")
+            ejemplo_html = f'''
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #E2E8F0;">
+                <strong style="color: #0F172A;">Ejemplo práctico:</strong>
+                <p style="color: #475569; font-size: 0.95rem; margin-top: 8px;">{texto_ejemplo}</p>
+            </div>
+            '''
+
+        st.markdown(f'''  
+        <div class="card">  
+            <span class="category-tag">{item["categoria"]}</span>  
+            <div class="term-title">{seleccion}</div>  
+            <div class="term-desc">{item["descripcion"]}</div>  
+            {ejemplo_html}
+        </div>  
+        ''', unsafe_allow_html=True)
