@@ -8,8 +8,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"  
 )  
 
-# Estilo CSS personalizado para apariencia moderna y pulida  
-st.markdown("""  
+# Estilo CSS personalizado aplicando st.html para mayor compatibilidad
+st.html("""  
 <style>  
 /* Estilos generales */  
 .main-header {  
@@ -24,51 +24,65 @@ st.markdown("""
     margin-bottom: 2rem;  
 }  
 
-/* --- ESTILO DE MENÚ TIPO TARJETA EN SIDEBAR --- */
+/* --- ESTILIZADO FORZADO PARA EL MENÚ EN SIDEBAR --- */
 
-/* 1. Ocultar los puntos circulares nativos del radio button en el sidebar */
-div[data-testid="stSidebar"] div[data-testid="stRadioButton"] input[type="radio"] {
+/* Contenedor principal de la lista */
+div[data-testid="stSidebar"] div[role="radiogroup"] {
+    background-color: #FFFFFF !important;
+    border: 2px solid #3B82F6 !important;
+    border-radius: 12px !important;
+    padding: 0px !important;
+    overflow: hidden !important;
+    gap: 0px !important;
+}
+
+/* Ocultar el círculo nativo del Radio Button */
+div[data-testid="stSidebar"] div[role="radiogroup"] label > div:first-child {
     display: none !important;
 }
 
-/* 2. Contenedor principal del menú con borde suave y esquinas redondeadas */
-div[data-testid="stSidebar"] div[data-testid="stRadioButton"] div[role="radiogroup"] {
-    border: 2px solid #52B2EC !important; 
-    border-radius: 14px !important;       
-    overflow: hidden !important;          
-    padding: 0 !important;
-    background-color: #FFFFFF !important;
+/* Ocultar inputs y divs residuales */
+div[data-testid="stSidebar"] div[role="radiogroup"] input[type="radio"] {
+    display: none !important;
 }
 
-/* 3. Estilo base de cada opción del menú */
-div[data-testid="stSidebar"] div[data-testid="stRadioButton"] div[role="radiogroup"] label {
-    padding: 14px 18px !important;
+/* Estilo de cada opción individual */
+div[data-testid="stSidebar"] div[role="radiogroup"] label {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 18px !important;
     margin: 0 !important;
-    border-radius: 0px !important;
-    color: #556575 !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    color: #475569 !important;
     font-weight: 500 !important;
-    font-size: 1rem !important;
-    width: 100% !important;
+    font-size: 0.95rem !important;
     cursor: pointer !important;
-    transition: background-color 0.2s ease, color 0.2s ease !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+    background-color: transparent !important;
 }
 
-/* 4. Efecto Hover al pasar el mouse */
-div[data-testid="stSidebar"] div[data-testid="stRadioButton"] div[role="radiogroup"] label:hover {
-    background-color: #F0F9FF !important;
-    color: #0284C7 !important;
+/* Quitar línea divisoria a la última opción */
+div[data-testid="stSidebar"] div[role="radiogroup"] label:last-child {
+    border-bottom: none !important;
 }
 
-/* 5. Opción Seleccionada (Fondo azul con texto blanco) */
-div[data-testid="stSidebar"] div[data-testid="stRadioButton"] div[role="radiogroup"] label[aria-checked="true"] {
-    background-color: #4A9EE6 !important; 
-    color: #FFFFFF !important;            
+/* Efecto Hover */
+div[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
+    background-color: #EFF6FF !important;
+    color: #1D4ED8 !important;
+}
+
+/* Opción Seleccionada (Fondo azul con texto blanco) */
+div[data-testid="stSidebar"] div[role="radiogroup"] label[aria-checked="true"] {
+    background-color: #2563EB !important;
+    color: #FFFFFF !important;
     font-weight: 700 !important;
 }
 
-/* 6. Ocultar elementos contenedores de radio vacíos */
-div[data-testid="stSidebar"] div[data-testid="stRadioButton"] div[role="radiogroup"] label > div:first-child {
-    display: none !important;
+/* Asegurar texto blanco en el párrafo interno al seleccionar */
+div[data-testid="stSidebar"] div[role="radiogroup"] label[aria-checked="true"] p {
+    color: #FFFFFF !important;
 }
 
 /* Tarjetas modernas */  
@@ -126,7 +140,7 @@ div[data-testid="stSidebar"] div[data-testid="stRadioButton"] div[role="radiogro
     text-decoration: none;  
 }  
 
-/* ESTILO MODERNO Y CONTROL DE TAMAÑO PARA IMÁGENES */  
+/* Control de tamaño para imágenes */  
 div[data-testid="stImage"] img {  
     display: block;  
     margin-left: auto;  
@@ -152,13 +166,13 @@ div[data-testid="stImage"] img:hover {
     padding: 8px 16px;  
 }  
 
-/* Estilización moderna de inputs y selectores */  
+/* Inputs y selectores */  
 div[data-baseweb="input"] > div, div[data-baseweb="select"] > div {  
     border-radius: 10px !important;  
     border-color: #E2E8F0 !important;  
 }  
 </style>  
-""", unsafe_allow_html=True)  
+""")  
 
 # Base de datos de conceptos estructurada  
 GLOSARIO = {  
