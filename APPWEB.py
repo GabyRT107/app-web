@@ -28,26 +28,44 @@ st.markdown("""
     margin-bottom: 2rem;  
 }  
 
-/* --- BOTONES DEL MENÚ LATERAL --- */
+/* --- BOTONES DEL MENÚ LATERAL (CENTRADOS Y MISMO TAMAÑO) --- */
+div[data-testid="stSidebar"] div.stButton {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
 div[data-testid="stSidebar"] div.stButton > button {
     width: 100% !important;
-    border-radius: 8px !important;
-    text-align: left !important;
-    justify-content: flex-start !important;
-    padding: 10px 16px !important;
-    font-size: 1rem !important;
-    font-weight: 500 !important;
+    height: 52px !important;            /* Alto fijo uniforme para todos los cuadros */
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;     /* Centrado vertical */
+    justify-content: center !important;/* Centrado horizontal */
+    text-align: center !important;
+    padding: 8px 12px !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
     border: 1px solid #E2E8F0 !important;
     background-color: #FFFFFF !important;
     color: #334155 !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 8px !important;
     transition: all 0.2s ease !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Forzar centrado del texto en componentes internos del botón */
+div[data-testid="stSidebar"] div.stButton > button p {
+    text-align: center !important;
+    width: 100% !important;
+    margin: 0 !important;
 }
 
 div[data-testid="stSidebar"] div.stButton > button:hover {
-    background-color: #F1F5F9 !important;
-    border-color: #CBD5E1 !important;
-    color: #0F172A !important;
+    background-color: #EFF6FF !important;
+    border-color: #93C5FD !important;
+    color: #1D4ED8 !important;
+    transform: translateY(-1px) !important;
 }
 
 /* Estilo para el botón SELECCIONADO (Activo) */
@@ -56,6 +74,11 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] {
     color: #FFFFFF !important;
     border-color: #2563EB !important;
     font-weight: 700 !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+}
+
+div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
+    color: #FFFFFF !important;
 }
 
 /* Tarjetas modernas */  
@@ -218,10 +241,9 @@ opciones_menu = [
     "Glosario"
 ]
 
-# Generación dinámica de botones estilizados
+# Generación dinámica de botones
 for opcion in opciones_menu:
     es_activo = (st.session_state.seccion_activa == opcion)
-    # Si el botón es el activo, le asignamos el tipo 'primary' (resaltado en azul)
     tipo_boton = "primary" if es_activo else "secondary"
     
     if st.sidebar.button(opcion, key=f"btn_{opcion}", type=tipo_boton):
