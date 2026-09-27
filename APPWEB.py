@@ -143,10 +143,11 @@ GLOSARIO = {
         "categoria": "Inteligencia Artificial",  
         "descripcion": "Rama de la IA capaz de crear nuevo contenido original (texto, imágenes, audio, código) a partir de patrones aprendidos de datos existentes."  
     },  
-    "Aprendizaje Automático": {  
-        "categoria": "Fundamentos de IA",  
-        "descripcion": "Subcampo de la IA que permite a los sistemas aprender y mejorar automáticamente a partir de la experiencia y los datos, sin ser programados explícitamente."  
-    },  
+    "Aprendizaje Automático": {
+    "categoria": "Fundamentos de IA",
+    "descripcion": "Subcampo de la IA que permite a los sistemas aprender y mejorar automáticamente a partir de la experiencia y los datos, sin ser programados explícitamente.",
+    "ejemplo": "Datos de Entrada:\n- Características del audio: La estructura física y acústica de la canción.\n- Historial de comportamiento del usuario: El registro de secuencias de reproducción.\n\nProcesamiento:\nAlgoritmos de filtrado colaborativo y procesamiento de señal analizan la relación entre la estructura musical y los patrones de reproducción guardados.\n\nDatos de Salida:\nSugerencia personalizada de canciones."
+  },
     "Big Data": {  
         "categoria": "Datos e Infraestructura",  
         "descripcion": "Conjunto de datos masivos y complejos que superan las capacidades del software tradicional para su procesamiento, caracterizados por su volumen, velocidad y variedad."  
