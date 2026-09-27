@@ -1,5 +1,4 @@
 import streamlit as st  
-from streamlit_carousel import carousel  
 
 # Configuración de página profesional  
 st.set_page_config(  
@@ -9,8 +8,12 @@ st.set_page_config(
     initial_sidebar_state="expanded"  
 )  
 
-# Estilo CSS personalizado aplicando st.html para mayor compatibilidad
-st.html("""  
+# 1. Inicializar la sección activa en el Session State
+if "seccion_activa" not in st.session_state:
+    st.session_state.seccion_activa = "Inteligencia Artificial"
+
+# Estilo CSS personalizado
+st.markdown("""  
 <style>  
 /* Estilos generales */  
 .main-header {  
@@ -25,65 +28,34 @@ st.html("""
     margin-bottom: 2rem;  
 }  
 
-/* --- ESTILIZADO FORZADO PARA EL MENÚ EN SIDEBAR --- */
-
-/* Contenedor principal de la lista */
-div[data-testid="stSidebar"] div[role="radiogroup"] {
-    background-color: #FFFFFF !important;
-    border: 2px solid #3B82F6 !important;
-    border-radius: 12px !important;
-    padding: 0px !important;
-    overflow: hidden !important;
-    gap: 0px !important;
-}
-
-/* Ocultar el círculo nativo del Radio Button */
-div[data-testid="stSidebar"] div[role="radiogroup"] label > div:first-child {
-    display: none !important;
-}
-
-/* Ocultar inputs y divs residuales */
-div[data-testid="stSidebar"] div[role="radiogroup"] input[type="radio"] {
-    display: none !important;
-}
-
-/* Estilo de cada opción individual */
-div[data-testid="stSidebar"] div[role="radiogroup"] label {
-    display: flex !important;
-    align-items: center !important;
-    padding: 12px 18px !important;
-    margin: 0 !important;
-    border-bottom: 1px solid #E2E8F0 !important;
-    color: #475569 !important;
-    font-weight: 500 !important;
-    font-size: 0.95rem !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
+/* --- BOTONES DEL MENÚ LATERAL --- */
+div[data-testid="stSidebar"] div.stButton > button {
     width: 100% !important;
-    background-color: transparent !important;
+    border-radius: 8px !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    padding: 10px 16px !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    border: 1px solid #E2E8F0 !important;
+    background-color: #FFFFFF !important;
+    color: #334155 !important;
+    margin-bottom: 4px !important;
+    transition: all 0.2s ease !important;
 }
 
-/* Quitar línea divisoria a la última opción */
-div[data-testid="stSidebar"] div[role="radiogroup"] label:last-child {
-    border-bottom: none !important;
+div[data-testid="stSidebar"] div.stButton > button:hover {
+    background-color: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
 }
 
-/* Efecto Hover */
-div[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
-    background-color: #EFF6FF !important;
-    color: #1D4ED8 !important;
-}
-
-/* Opción Seleccionada (Fondo azul con texto blanco) */
-div[data-testid="stSidebar"] div[role="radiogroup"] label[aria-checked="true"] {
+/* Estilo para el botón SELECCIONADO (Activo) */
+div[data-testid="stSidebar"] div.stButton > button[kind="primary"] {
     background-color: #2563EB !important;
     color: #FFFFFF !important;
+    border-color: #2563EB !important;
     font-weight: 700 !important;
-}
-
-/* Asegurar texto blanco en el párrafo interno al seleccionar */
-div[data-testid="stSidebar"] div[role="radiogroup"] label[aria-checked="true"] p {
-    color: #FFFFFF !important;
 }
 
 /* Tarjetas modernas */  
@@ -95,10 +67,6 @@ div[data-testid="stSidebar"] div[role="radiogroup"] label[aria-checked="true"] p
     margin-top: 10px;  
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);  
     transition: transform 0.2s ease, box-shadow 0.2s ease;  
-}  
-.card:hover {  
-    transform: translateY(-2px);  
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);  
 }  
 .category-tag {  
     background-color: #E0F2FE;  
@@ -133,12 +101,6 @@ div[data-testid="stSidebar"] div[role="radiogroup"] label[aria-checked="true"] p
     font-weight: 600;  
     font-size: 1rem;  
     margin-top: 15px;  
-    transition: background-color 0.2s ease, transform 0.2s ease;  
-}  
-.link-button:hover {  
-    background-color: #1A168C;  
-    transform: translateY(-1px);  
-    text-decoration: none;  
 }  
 
 /* Control de tamaño para imágenes */  
@@ -150,32 +112,11 @@ div[data-testid="stImage"] img {
     width: 100%;  
     border-radius: 14px;  
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);  
-    transition: transform 0.3s ease, box-shadow 0.3s ease;  
-}  
-
-div[data-testid="stImage"] img:hover {  
-    transform: scale(1.02);  
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15);  
-}  
-
-/* Mejora visual en Pestañas (Tabs) */  
-.stTabs [data-baseweb="tab-list"] {  
-    gap: 8px;  
-}  
-.stTabs [data-baseweb="tab"] {  
-    border-radius: 8px;  
-    padding: 8px 16px;  
-}  
-
-/* Inputs y selectores */  
-div[data-baseweb="input"] > div, div[data-baseweb="select"] > div {  
-    border-radius: 10px !important;  
-    border-color: #E2E8F0 !important;  
 }  
 </style>  
-""")  
+""", unsafe_allow_html=True)  
 
-# Base de datos de conceptos estructurada  
+# Base de datos de conceptos  
 GLOSARIO = {  
     "IA Simbólica": {  
         "categoria": "Inteligencia Artificial",  
@@ -188,93 +129,108 @@ GLOSARIO = {
     "Aprendizaje Automático": {
         "categoria": "Fundamentos de IA",
         "descripcion": "Subcampo de la IA que permite a los sistemas aprender y mejorar automáticamente a partir de la experiencia y los datos, sin ser programados explícitamente.",
-        "ejemplo": "Las plataformas de streaming musical necesitan atraer y retener usuarios recomendándoles canciones que se adapten a sus preferencias individuales en un catálogo masivo de lanzamientos. Para lograrlo, implementan modelos de Machine Learning entrenados con patrones de escucha y características de audio.\n\nDatos de Entrada:\n- Características del audio: La estructura física y acústica de la canción.\n- Historial de comportamiento del usuario: El registro de secuencias de reproducción.\n\nProcesamiento:\nAlgoritmos de filtrado colaborativo y procesamiento de señal analizan la relación entre la estructura musical y los patrones de reproducción guardados.\n\nDatos de Salida:\nSugerencia personalizada de canciones."
+        "ejemplo": "Las plataformas de streaming musical necesitan atraer y retener usuarios recomendándoles canciones que se adapten a sus preferencias individuales en un catálogo masivo de lanzamientos.\n\nDatos de Entrada:\n- Características del audio\n- Historial de comportamiento del usuario\n\nProcesamiento:\nAlgoritmos de filtrado colaborativo analizan la relación entre la estructura musical y los patrones guardados.\n\nDatos de Salida:\nSugerencia personalizada de canciones."
     },
     "Big Data": {  
         "categoria": "Datos e Infraestructura",  
-        "descripcion": "Conjunto de datos masivos y complejos que superan las capacidades del software tradicional para su procesamiento, caracterizados por su volumen, velocidad y variedad."  
+        "descripcion": "Conjunto de datos masivos y complejos que superan las capacidades del software tradicional para su procesamiento."  
     },  
     "Sistemas adaptativos de autoaprendizaje": {  
         "categoria": "Sistemas Inteligentes",  
-        "descripcion": "Sistemas diseñados para modificar automáticamente sus algoritmos o comportamientos en tiempo real según los cambios en su entorno o entradas."  
+        "descripcion": "Sistemas diseñados para modificar automáticamente sus algoritmos en tiempo real según los cambios en su entorno."  
     },  
     "Aprendizaje profundo": {  
         "categoria": "Fundamentos de IA",  
-        "descripcion": "Subconjunto del Aprendizaje Automático basado en redes neuronales artificiales de múltiples capas que imitan la estructura del cerebro humano."  
+        "descripcion": "Subconjunto del Aprendizaje Automático basado en redes neuronales artificiales de múltiples capas."  
     },  
     "Procesamiento de lenguaje natural (PLN)": {  
         "categoria": "Aplicaciones de IA",  
-        "descripcion": "Disciplina que permite a las computadoras comprender, interpretar, manipular y generar lenguaje humano hablado o escrito."  
+        "descripcion": "Disciplina que permite a las computadoras comprender e interpretar lenguaje humano hablado o escrito."  
     },  
     "Disciplina Tecnológica": {  
         "categoria": "Fundamentos",  
-        "descripcion": "Campo metódico de estudio e ingeniería dedicado al desarrollo, aplicación y gestión responsable de soluciones tecnológicas."  
+        "descripcion": "Campo metódico dedicado al desarrollo, aplicación y gestión responsable de soluciones tecnológicas."  
     },  
     "Ciencia de Datos": {  
         "categoria": "Datos e Infraestructura",  
-        "descripcion": "Campo interdisciplinario que combina estadística, matemáticas y programación para extraer conocimientos significativos a partir de datos estructurados y no estructurados."  
+        "descripcion": "Campo interdisciplinario que combina estadística y programación para extraer conocimientos a partir de datos."  
     },  
     "Máquina Virtual": {  
         "categoria": "Datos e Infraestructura",  
-        "descripcion": "Entorno informático de software que emula un sistema físico completo, permitiendo ejecutar sistemas operativos y aplicaciones de forma aislada."  
+        "descripcion": "Entorno informático de software que emula un sistema físico completo."  
     },  
     "Sistema de Expertos": {  
         "categoria": "Inteligencia Artificial",  
-        "descripcion": "Sistema informático que emula la capacidad de toma de decisiones de un experto humano en un dominio específico utilizando reglas de conocimiento."  
+        "descripcion": "Sistema informático que emula la capacidad de toma de decisiones de un experto humano."  
     },  
     "Internet de las cosas (IoT)": {  
         "categoria": "Hardware & Redes",  
-        "descripcion": "Red de objetos físicos interconectados provistos de sensores y software que recopilan y comparten datos a través de Internet."  
+        "descripcion": "Red de objetos físicos interconectados provistos de sensores y software."  
     },  
     "Tecnología operativa (OT)": {  
         "categoria": "Hardware & Redes",  
-        "descripcion": "Hardware y software utilizado para monitorear y controlar dispositivos físicos, procesos e infraestructura en entornos industriales."  
+        "descripcion": "Hardware y software utilizado para monitorear y controlar dispositivos físicos e infraestructura industrial."  
     },  
     "Visión Artificial": {  
         "categoria": "Aplicaciones de IA",  
-        "descripcion": "Campo de la IA que entrena a las computadoras para interpretar, procesar y comprender el mundo visual a través de imágenes y video."  
+        "descripcion": "Campo de la IA que entrena a las computadoras para interpretar el mundo visual mediante imágenes y video."  
     },  
     "Computación Cognitiva": {  
         "categoria": "Sistemas Inteligentes",  
-        "descripcion": "Uso de modelos computadorizados para simular el proceso de pensamiento humano en situaciones complejas e ambiguas."  
+        "descripcion": "Uso de modelos computadorizados para simular el proceso de pensamiento humano."  
     },  
     "Ingeniería de Prompts": {  
         "categoria": "IA Generativa",  
-        "descripcion": "Práctica de estructurar, refinar y optimizar las instrucciones de texto de entrada para obtener las mejores respuestas de modelos de IA."  
+        "descripcion": "Práctica de estructurar instrucciones para obtener las mejores respuestas de modelos de IA."  
     },  
     "Modelos de lenguajes grandes (LLM)": {  
         "categoria": "IA Generativa",  
-        "descripcion": "Modelos de aprendizaje profundo entrenados con enormes cantidades de texto para comprender, resumir y generar contenido en lenguaje natural."  
+        "descripcion": "Modelos de aprendizaje profundo entrenados con enormes cantidades de texto."  
     },  
     "Redes Neuronales Convolucionales (CNN)": {  
         "categoria": "Aprendizaje Profundo",  
-        "descripcion": "Arquitectura de red neuronal diseñada principalmente para procesar datos con estructura de cuadrícula, como imágenes y video."  
+        "descripcion": "Arquitectura de red neuronal diseñada para procesar datos como imágenes y video."  
     },  
     "IA Multimodal": {  
         "categoria": "IA Avanzada",  
-        "descripcion": "Sistemas de IA capaces de procesar, comprender y combinar múltiples tipos de datos de entrada (texto, imágenes, audio, video) simultáneamente."  
+        "descripcion": "Sistemas capaces de procesar múltiples tipos de datos de entrada simultáneamente."  
     },  
     "IA Responsable": {  
         "categoria": "Gobernanza & Ética",  
-        "descripcion": "Enfoque metódico para el diseño, desarrollo y despliegue de sistemas de IA seguros, transparentes, éticos y libres de sesgos."  
+        "descripcion": "Enfoque metódico para el desarrollo de sistemas de IA seguros, transparentes y éticos."  
     }  
 }  
 
-# Función auxiliar para centrar imágenes con layout de columnas  
 def mostrar_imagen_centrada(ruta):  
     col1, col2, col3 = st.columns([1, 2, 1])  
     with col2:  
         st.image(ruta)  
 
-# --- NAVEGACIÓN Y MENÚ PRINCIPAL ---  
+# --- NAVEGACIÓN LATERAL CON BOTONES ESTILIZADOS ---  
 st.sidebar.title("Navegación")  
-seccion = st.sidebar.radio(  
-    "Selecciona una sección:",  
-    ["Inteligencia Artificial", "Antecedentes", "Clasificación Clásica", "Disciplinas", "Herramientas", "Glosario"],
-    label_visibility="collapsed"
-)  
 
-# --- SECCIÓN: INTELIGENCIA ARTIFICIAL ---  
+opciones_menu = [
+    "Inteligencia Artificial", 
+    "Antecedentes", 
+    "Clasificación Clásica", 
+    "Disciplinas", 
+    "Herramientas", 
+    "Glosario"
+]
+
+# Generación dinámica de botones estilizados
+for opcion in opciones_menu:
+    es_activo = (st.session_state.seccion_activa == opcion)
+    # Si el botón es el activo, le asignamos el tipo 'primary' (resaltado en azul)
+    tipo_boton = "primary" if es_activo else "secondary"
+    
+    if st.sidebar.button(opcion, key=f"btn_{opcion}", type=tipo_boton):
+        st.session_state.seccion_activa = opcion
+        st.rerun()
+
+seccion = st.session_state.seccion_activa
+
+# --- VISTAS ---  
 if seccion == "Inteligencia Artificial":  
     st.markdown('<div class="main-header">¿Qué es la inteligencia artificial (IA)?</div>', unsafe_allow_html=True)  
     st.write(  
@@ -284,7 +240,6 @@ if seccion == "Inteligencia Artificial":
     )  
     mostrar_imagen_centrada("img/IA.jpg")  
 
-# --- SECCIÓN: ANTECEDENTES ---  
 elif seccion == "Antecedentes":  
     st.markdown('<div class="main-header">Antecedentes de la IA</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Evolución histórica y momentos clave en el desarrollo de la IA.</div>', unsafe_allow_html=True)  
@@ -300,7 +255,6 @@ elif seccion == "Antecedentes":
     with tab3:  
         mostrar_imagen_centrada("img/3.jpg")  
 
-# --- SECCIÓN: CLASIFICACIÓN CLÁSICA ---  
 elif seccion == "Clasificación Clásica":  
     st.markdown('<div class="main-header">Clasificación Clásica de la IA</div>', unsafe_allow_html=True)  
     
@@ -308,91 +262,57 @@ elif seccion == "Clasificación Clásica":
     
     with tab01:  
         st.write(  
-            "**IA débil o estrecha (Narrow AI):** Está diseñada para resolver tareas específicas: traducción, recomendación, reconocimiento de imágenes, reconocimiento de voz, generación de texto, recomendaciones de productos. Impulsa la mayor parte de la IA que nos rodea hoy, no tiene nada de débil."  
+            "**IA débil o estrecha (Narrow AI):** Está diseñada para resolver tareas específicas: traducción, recomendación, reconocimiento de imágenes, reconocimiento de voz, generación de texto, recomendaciones de productos."  
         )  
         mostrar_imagen_centrada("img/4.png")  
     
     with tab02:  
         st.write(  
-            "**IA fuerte o general (AGI- General Artificial Intelligence):** Busca crear máquinas con inteligencia humana completa, capaces de realizar cualquier tarea intelectual que un humano pueda hacer. Es teórica y no existe de manera práctica. Es una categoría hipotética."  
+            "**IA fuerte o general (AGI- General Artificial Intelligence):** Busca crear máquinas con inteligencia humana completa. Es una categoría hipotética."  
         )  
         mostrar_imagen_centrada("img/5.png")  
     
     with tab03:  
         st.write(  
-            "**IA superinteligente:** Hace referencia a un sistema que superaría a los humanos en absolutamente todas las áreas cognitivas, sería autoconsciente y tendría la capacidad de resolver problemas, aprender y planificar para el futuro. Es una categoría especulativa."  
+            "**IA superinteligente:** Hace referencia a un sistema que superaría a los humanos en absolutamente todas las áreas cognitivas."  
         )  
         mostrar_imagen_centrada("img/6.png")  
 
-# --- SECCIÓN: DISCIPLINAS ---  
 elif seccion == "Disciplinas":  
     st.markdown('<div class="main-header">Disciplinas Relacionadas</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Áreas de estudio que convergen en el ecosistema de IA y Datos.</div>', unsafe_allow_html=True)  
 
-    pestanas = [  
-        "Filosofía",  
-        "Matemáticas",  
-        "Psicología",  
-        "Computación",  
-        "Lingüística",  
-        "Economía",  
-        "Neurociencia",  
-    ]  
+    pestanas = ["Filosofía", "Matemáticas", "Psicología", "Computación", "Lingüística", "Economía", "Neurociencia"]  
     t1, t2, t3, t4, t5, t6, t7 = st.tabs(pestanas)  
 
     with t1:  
-        st.write(  
-            "**Filosofía:** Aristóteles (300 AC) Describe de forma"  
-            " estructurada la forma como el ser humano produce conclusiones"  
-            " racionales a partir de un grupo de premisas. (Silogismos)"  
-        )  
+        st.write("**Filosofía:** Aristóteles (300 AC) Describe los silogismos y conclusiones racionales.")  
         mostrar_imagen_centrada("img/Filosofia.jpg")  
 
     with t2:  
-        st.write(  
-            "**Matemáticas:** Razonamiento con algoritmos. Cálculo: brindó las"  
-            " herramientas que nos permiten la modelación de diferentes tipos"  
-            " de fenómenos."  
-        )  
+        st.write("**Matemáticas:** Razonamiento con algoritmos y modelación de fenómenos.")  
         mostrar_imagen_centrada("img/Matematicas.jpg")  
 
     with t3:  
-        st.write(  
-            "**Psicología:** Refuerza la idea de que los humanos y otros"  
-            " animales pueden ser considerados como máquinas para el"  
-            " procesamiento de información."  
-        )  
+        st.write("**Psicología:** Considera a los seres vivos como procesadores de información.")  
         mostrar_imagen_centrada("img/Psicologia.jpg")  
 
     with t4:  
-        st.write(  
-            "**Computación:** Las teorías de la IA encuentran un medio para su"  
-            " implementación de artefactos y modelado cognitivo."  
-        )  
+        st.write("**Computación:** Implementación en artefactos y modelado cognitivo.")  
         mostrar_imagen_centrada("img/Computacion.jpg")  
 
     with t5:  
-        st.write(  
-            "**Lingüística:** Aporta un área híbrida conocida como lingüística"  
-            " computacional o procesamiento del lenguaje natural."  
-        )  
+        st.write("**Lingüística:** Procesamiento del lenguaje natural.")  
         mostrar_imagen_centrada("img/Linguistica.jpg")  
 
     with t6:  
-        st.write(  
-            "**Economía:** Área experta en la toma de decisiones (Teoría de la"  
-            " decisión, Juegos, Procesos de decisión de Markov)."  
-        )  
+        st.write("**Economía:** Toma de decisiones y Teoría de juegos.")  
         mostrar_imagen_centrada("img/Economia.jpeg")  
 
     with t7:  
-        st.write(  
-            "**Neurociencia:** Ha contribuido a la IA con los conocimientos sobre"  
-            " la forma como el cerebro procesa la información."  
-        )  
+        st.write("**Neurociencia:** Procesamiento cerebral de la información.")  
         mostrar_imagen_centrada("img/Neurociencia.jpg")  
 
-# --- SECCIÓN: HERRAMIENTAS ---  
 elif seccion == "Herramientas":  
     st.markdown('<div class="main-header">Herramientas de Inteligencia Artificial</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Accede a las principales plataformas e instrumentos de IA.</div>', unsafe_allow_html=True)  
@@ -405,7 +325,7 @@ elif seccion == "Herramientas":
             <span class="category-tag">Asistente IA</span>  
             <div class="term-title">Google Gemini</div>  
             <div class="term-desc">  
-                Google Gemini es un modelo conversacional multimodal desarrollado por Google, capaz de comprender y procesar texto, código, imágenes, audio y video.  
+                Modelo conversacional multimodal desarrollado por Google, capaz de comprender texto, código, imágenes, audio y video.  
             </div>  
             <a href="https://gemini.google.com/app?hl=es-MX" target="_blank" class="link-button">  
                 🚀 Abrir Google Gemini  
@@ -413,7 +333,6 @@ elif seccion == "Herramientas":
         </div>  
         ''', unsafe_allow_html=True)  
 
-# --- SECCIÓN: GLOSARIO ---  
 elif seccion == "Glosario":  
     st.markdown('<div class="main-header">Directorio de Tecnologías e Inteligencia Artificial</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Plataforma de consulta para términos clave de arquitectura, IA y ciencia de datos.</div>', unsafe_allow_html=True)  
