@@ -406,7 +406,7 @@ elif seccion == "Glosario":
             st.info("No se encontraron términos coincidentes.")  
             seleccion = None  
   
-   with col_detalle:
+    with col_detalle:
         if seleccion:
             item = GLOSARIO[seleccion]
             ejemplo_html = ""
