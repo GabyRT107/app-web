@@ -28,16 +28,10 @@ st.markdown("""
     margin-bottom: 2rem;  
 }  
 
-/* --- BOTONES DEL MENÚ LATERAL (CENTRADOS Y MISMO TAMAÑO) --- */
-div[data-testid="stSidebar"] div.stButton {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-}
-
+/* --- BOTONES DEL MENÚ LATERAL (FORZAR CENTRADO Y ANCHO COMPLETO) --- */
 div[data-testid="stSidebar"] div.stButton > button {
     width: 100% !important;
-    height: 52px !important;            /* Alto fijo uniforme para todos los cuadros */
+    height: 50px !important;            /* Mismo alto uniforme */
     border-radius: 10px !important;
     display: flex !important;
     align-items: center !important;     /* Centrado vertical */
@@ -47,34 +41,23 @@ div[data-testid="stSidebar"] div.stButton > button {
     font-size: 0.95rem !important;
     font-weight: 600 !important;
     border: 1px solid #E2E8F0 !important;
-    background-color: #FFFFFF !important;
-    color: #334155 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Forzar centrado del texto en componentes internos del botón */
+/* Forzar centrado del texto interno */
 div[data-testid="stSidebar"] div.stButton > button p {
     text-align: center !important;
     width: 100% !important;
     margin: 0 !important;
 }
 
-div[data-testid="stSidebar"] div.stButton > button:hover {
-    background-color: #EFF6FF !important;
-    border-color: #93C5FD !important;
-    color: #1D4ED8 !important;
-    transform: translateY(-1px) !important;
-}
-
 /* Estilo para el botón SELECCIONADO (Activo) */
 div[data-testid="stSidebar"] div.stButton > button[kind="primary"] {
-    background-color: #2563EB !important;
+    background-color: #E63946 !important; /* Rojo elegante similar al de tu captura */
     color: #FFFFFF !important;
-    border-color: #2563EB !important;
+    border-color: #E63946 !important;
     font-weight: 700 !important;
-    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
 }
 
 div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
@@ -229,7 +212,7 @@ def mostrar_imagen_centrada(ruta):
     with col2:  
         st.image(ruta)  
 
-# --- NAVEGACIÓN LATERAL CON BOTONES ESTILIZADOS ---  
+# --- NAVEGACIÓN LATERAL CON BOTONES DEL MISMO TAMAÑO ---  
 st.sidebar.title("Navegación")  
 
 opciones_menu = [
@@ -241,12 +224,17 @@ opciones_menu = [
     "Glosario"
 ]
 
-# Generación dinámica de botones
+# El parámetro use_container_width=True obliga a que todos midan el 100% del ancho
 for opcion in opciones_menu:
     es_activo = (st.session_state.seccion_activa == opcion)
     tipo_boton = "primary" if es_activo else "secondary"
     
-    if st.sidebar.button(opcion, key=f"btn_{opcion}", type=tipo_boton):
+    if st.sidebar.button(
+        opcion, 
+        key=f"btn_{opcion}", 
+        type=tipo_boton, 
+        use_container_width=True
+    ):
         st.session_state.seccion_activa = opcion
         st.rerun()
 
