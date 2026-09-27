@@ -409,22 +409,16 @@ elif seccion == "Glosario":
     with col_detalle:
         if seleccion:
             item = GLOSARIO[seleccion]
-            ejemplo_html = ""
             
-            if "ejemplo" in item:
-                texto_ejemplo = item["ejemplo"].replace("\n", "<br>")
-                ejemplo_html = f'''
-                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #E2E8F0;">
-                    <strong style="color: #0F172A;">Ejemplo práctico:</strong>
-                    <p style="color: #475569; font-size: 0.95rem; margin-top: 8px;">{texto_ejemplo}</p>
-                </div>
-                '''
-
-            st.markdown(f'''
-            <div class="card">
-                <span class="category-tag">{item["categoria"]}</span>
-                <div class="term-title">{seleccion}</div>
-                <div class="term-desc">{item["descripcion"]}</div>
-                {ejemplo_html}
-            </div>
+            # Contenedor visual para la tarjeta
+            with st.container():
+                st.markdown(f'<span class="category-tag">{item["categoria"]}</span>', unsafe_allow_html=True)
+                st.markdown(f'<div class="term-title">{seleccion}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="term-desc">{item["descripcion"]}</div>', unsafe_allow_html=True)
+                
+                # Renderizar el ejemplo sólo si existe en el término
+                if "ejemplo" in item:
+                    st.divider() # Línea divisoria nativa de Streamlit
+                    st.subheader("Ejemplo práctico:")
+                    st.text(item["ejemplo"]) # O st.markdown(item["ejemplo"]) si quieres negritas
             ''', unsafe_allow_html=True)
