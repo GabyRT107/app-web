@@ -421,4 +421,3 @@ elif seccion == "Glosario":
                     st.divider() # Línea divisoria nativa de Streamlit
                     st.subheader("Ejemplo práctico:")
                     st.text(item["ejemplo"]) # O st.markdown(item["ejemplo"]) si quieres negritas
-            ''', unsafe_allow_html=True)
