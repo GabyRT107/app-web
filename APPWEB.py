@@ -1,4 +1,5 @@
 import streamlit as st  
+from streamlit_carousel import carousel  
 
 # Configuración de página profesional  
 st.set_page_config(  
