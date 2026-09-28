@@ -1,5 +1,5 @@
 import streamlit as st  
-import base64
+import pdfplumber
 from pathlib import Path
 
 # ==========================================
@@ -15,7 +15,7 @@ st.set_page_config(
 # ==========================================
 # 2. GESTIÓN DEL ESTADO DE SESIÓN (SESSION STATE)
 # ==========================================
-# Mantiene la pestaña activa seleccionada por el usuario entre recargas
+# Mantiene la pestaña activa entre recargas de la app
 if "seccion_activa" not in st.session_state:
     st.session_state.seccion_activa = "Inteligencia Artificial"
 
@@ -123,7 +123,7 @@ div[data-testid="stImage"] img {
     display: block;  
     margin-left: auto;  
     margin-right: auto;  
-    max-width: 480px;  
+    max-width: 600px;  
     width: 100%;  
     border-radius: 14px;  
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);  
@@ -222,53 +222,55 @@ GLOSARIO = {
 # 5. FUNCIONES AUXILIARES OPTIMIZADAS
 # ==========================================
 
-# Función para renderizar imágenes centradas
+# Función para centrar imágenes informativas
 def mostrar_imagen_centrada(ruta):  
     col1, col2, col3 = st.columns([1, 2, 1])  
     with col2:  
         st.image(ruta)  
 
-# Memoriza la lectura y conversión del PDF para acelerar el tiempo de respuesta
+# Carga y convierte las páginas del PDF a imágenes HD (evita bloqueos de Chrome)
 @st.cache_data
-def obtener_datos_pdf(ruta_pdf):
+def obtener_paginas_pdf(ruta_pdf):
     pdf_path = Path(ruta_pdf)
-    if pdf_path.is_file():
-        try:
-            with open(pdf_path, "rb") as f:
-                bytes_data = f.read()
-                base64_pdf = base64.b64encode(bytes_data).decode('utf-8')
-            return base64_pdf, bytes_data, pdf_path.name, None
-        except Exception as e:
-            return None, None, None, str(e)
-    return None, None, None, "Archivo no encontrado"
-
-# Función para renderizar el PDF en pantalla
-def mostrar_pdf_integrado(ruta_pdf):
-    base64_pdf, bytes_data, nombre_archivo, error = obtener_datos_pdf(ruta_pdf)
+    if not pdf_path.is_file():
+        return None, None, "Archivo no encontrado en el sistema."
     
-    if base64_pdf:
-        # Genera el visor HTML
-        pdf_display = f'''
-            <iframe 
-                src="data:application/pdf;base64,{base64_pdf}" 
-                width="100%" 
-                height="780px" 
-                type="application/pdf" 
-                style="border-radius: 12px; border: 1px solid #CBD5E1;">
-            </iframe>
-        '''
-        st.markdown(pdf_display, unsafe_allow_html=True)
+    try:
+        imagenes = []
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                # Transforma la página a una imagen legible
+                pil_image = page.to_image(resolution=150).original
+                imagenes.append(pil_image)
         
+        with open(pdf_path, "rb") as f:
+            bytes_data = f.read()
+            
+        return imagenes, bytes_data, None
+    except Exception as e:
+        return None, None, str(e)
+
+# Muestra el documento interactivo
+def mostrar_pdf_integrado(ruta_pdf):
+    imagenes, bytes_data, error = obtener_paginas_pdf(ruta_pdf)
+    
+    if imagenes:
         # Botón de descarga directa
         st.download_button(
-            label="📥 Descargar PDF",
+            label="📥 Descargar PDF Original",
             data=bytes_data,
-            file_name=nombre_archivo,
+            file_name=Path(ruta_pdf).name,
             mime="application/pdf"
         )
+        st.markdown("---")
+        
+        # Renderiza cada página del documento de forma secuencial y nativa
+        for idx, img in enumerate(imagenes):
+            st.image(img, use_container_width=True)
     else:
         st.warning(
-            f"⚠️ **Archivo no detectado:** `{ruta_pdf}`\n\n"
+            f"⚠️ **Archivo no detectado o error al leer:** `{ruta_pdf}`\n\n"
+            f"Detalle: {error}\n\n"
             "Asegúrate de haber guardado el archivo dentro de la carpeta `documentos/` "
             "con el nombre exacto: `Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf`."
         )
@@ -288,7 +290,7 @@ opciones_menu = [
     "Glosario"
 ]
 
-# Generación de botones con ancho uniforme
+# Generación de botones con interactividad y estilos uniformes
 for opcion in opciones_menu:
     es_activo = (st.session_state.seccion_activa == opcion)
     tipo_boton = "primary" if es_activo else "secondary"
@@ -415,12 +417,12 @@ elif seccion == "Herramientas":
         </div>  
         ''', unsafe_allow_html=True)  
 
-# --- SECCIÓN: ENSAYO (VISOR PDF INTEGRADO CON NOMBRE ACTUALIZADO) ---
+# --- SECCIÓN: ENSAYO (LECTOR DE ARCHIVOS PDF NATIVO) ---
 elif seccion == "Ensayo":  
     st.markdown('<div class="main-header">Documentos y Ensayos</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Selecciona un archivo para leerlo directamente dentro de la plataforma.</div>', unsafe_allow_html=True)  
 
-    # Mapeo con el nombre exacto de tu archivo PDF
+    # Mapeo del archivo PDF
     ensayos_disponibles = {
         "📄 Ensayo de IA (Subproducto No. 5)": "documentos/Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf"
     }
@@ -434,7 +436,7 @@ elif seccion == "Ensayo":
 
     st.markdown("---")
 
-    # Renderiza el archivo PDF seleccionado
+    # Muestra el PDF página por página sin depender de iframe/base64
     ruta_archivo = ensayos_disponibles[documento_seleccionado]
     mostrar_pdf_integrado(ruta_archivo)
 
