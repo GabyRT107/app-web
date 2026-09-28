@@ -15,7 +15,6 @@ st.set_page_config(
 # ==========================================
 # 2. GESTIÓN DEL ESTADO DE SESIÓN (SESSION STATE)
 # ==========================================
-# Mantiene la pestaña activa entre recargas de la app
 if "seccion_activa" not in st.session_state:
     st.session_state.seccion_activa = "Inteligencia Artificial"
 
@@ -37,7 +36,7 @@ st.markdown("""
     margin-bottom: 2rem;  
 }  
 
-/* Estilo para los botones del menú lateral (tamaño uniforme) */
+/* Estilo para los botones del menú lateral */
 div[data-testid="stSidebar"] div.stButton > button {
     width: 100% !important;
     height: 50px !important;            
@@ -54,14 +53,12 @@ div[data-testid="stSidebar"] div.stButton > button {
     transition: all 0.2s ease !important;
 }
 
-/* Alineación central del texto dentro de los botones */
 div[data-testid="stSidebar"] div.stButton > button p {
     text-align: center !important;
     width: 100% !important;
     margin: 0 !important;
 }
 
-/* Estilo visual para la pestaña activa (Botón seleccionado) */
 div[data-testid="stSidebar"] div.stButton > button[kind="primary"] {
     background-color: #E63946 !important; 
     color: #FFFFFF !important;
@@ -73,7 +70,7 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     color: #FFFFFF !important;
 }
 
-/* Tarjetas y contenedores de información */  
+/* Tarjetas y contenedores */  
 .card {  
     background-color: #F8FAFC;  
     border: 1px solid #E2E8F0;  
@@ -105,7 +102,6 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     line-height: 1.6;  
 }  
 
-/* Enlaces con diseño de botón */  
 .link-button {  
     display: inline-block;  
     background-color: #231EB3;  
@@ -118,15 +114,12 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     margin-top: 15px;  
 }  
 
-/* Formato centrado para imágenes */  
 div[data-testid="stImage"] img {  
     display: block;  
     margin-left: auto;  
     margin-right: auto;  
-    max-width: 600px;  
-    width: 100%;  
-    border-radius: 14px;  
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);  
+    border-radius: 10px;  
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);  
 }  
 </style>  
 """, unsafe_allow_html=True)  
@@ -222,13 +215,12 @@ GLOSARIO = {
 # 5. FUNCIONES AUXILIARES OPTIMIZADAS
 # ==========================================
 
-# Función para centrar imágenes informativas
 def mostrar_imagen_centrada(ruta):  
     col1, col2, col3 = st.columns([1, 2, 1])  
     with col2:  
         st.image(ruta)  
 
-# Carga y convierte las páginas del PDF a imágenes HD (evita bloqueos de Chrome)
+# Extrae páginas como imágenes con caché
 @st.cache_data
 def obtener_paginas_pdf(ruta_pdf):
     pdf_path = Path(ruta_pdf)
@@ -239,7 +231,6 @@ def obtener_paginas_pdf(ruta_pdf):
         imagenes = []
         with pdfplumber.open(pdf_path) as pdf:
             for page in pdf.pages:
-                # Transforma la página a una imagen legible
                 pil_image = page.to_image(resolution=150).original
                 imagenes.append(pil_image)
         
@@ -250,29 +241,54 @@ def obtener_paginas_pdf(ruta_pdf):
     except Exception as e:
         return None, None, str(e)
 
-# Muestra el documento interactivo
+# Visor flexible y centrado para PDF
 def mostrar_pdf_integrado(ruta_pdf):
     imagenes, bytes_data, error = obtener_paginas_pdf(ruta_pdf)
     
     if imagenes:
-        # Botón de descarga directa
-        st.download_button(
-            label="📥 Descargar PDF Original",
-            data=bytes_data,
-            file_name=Path(ruta_pdf).name,
-            mime="application/pdf"
-        )
+        # Barra de control superior para el usuario
+        ctrl_col1, ctrl_col2 = st.columns([2, 1])
+        
+        with ctrl_col1:
+            st.download_button(
+                label="📥 Descargar archivo PDF",
+                data=bytes_data,
+                file_name=Path(ruta_pdf).name,
+                mime="application/pdf"
+            )
+        
+        with ctrl_col2:
+            # Control de tamaño para el usuario
+            ancho_slider = st.select_slider(
+                "🔍 Tamaño de lectura:",
+                options=["Pequeño", "Cómodo", "Grande", "Ancho completo"],
+                value="Cómodo"
+            )
+        
         st.markdown("---")
         
-        # Renderiza cada página del documento de forma secuencial y nativa
+        # Mapeo de proporciones de columnas para el centrado
+        márgenes = {
+            "Pequeño": [2, 3, 2],
+            "Cómodo": [1.5, 4, 1.5],
+            "Grande": [0.8, 5, 0.8],
+            "Ancho completo": [0.01, 1, 0.01]
+        }
+        
+        relacion_cols = márgenes[ancho_slider]
+
+        # Muestra cada página centrada según el ancho elegido
         for idx, img in enumerate(imagenes):
-            st.image(img, use_container_width=True)
+            c_left, c_center, c_right = st.columns(relacion_cols)
+            with c_center:
+                st.caption(f"Página {idx + 1} de {len(imagenes)}")
+                st.image(img, use_container_width=True)
+                st.markdown("<br>", unsafe_allow_html=True)
     else:
         st.warning(
-            f"⚠️ **Archivo no detectado o error al leer:** `{ruta_pdf}`\n\n"
+            f"⚠️ **Archivo no detectado:** `{ruta_pdf}`\n\n"
             f"Detalle: {error}\n\n"
-            "Asegúrate de haber guardado el archivo dentro de la carpeta `documentos/` "
-            "con el nombre exacto: `Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf`."
+            "Asegúrate de que el archivo se encuentre en `documentos/Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf`."
         )
 
 # ==========================================
@@ -290,7 +306,6 @@ opciones_menu = [
     "Glosario"
 ]
 
-# Generación de botones con interactividad y estilos uniformes
 for opcion in opciones_menu:
     es_activo = (st.session_state.seccion_activa == opcion)
     tipo_boton = "primary" if es_activo else "secondary"
@@ -417,12 +432,11 @@ elif seccion == "Herramientas":
         </div>  
         ''', unsafe_allow_html=True)  
 
-# --- SECCIÓN: ENSAYO (LECTOR DE ARCHIVOS PDF NATIVO) ---
+# --- SECCIÓN: ENSAYO (CENTRADO Y FLEXIBLE) ---
 elif seccion == "Ensayo":  
     st.markdown('<div class="main-header">Documentos y Ensayos</div>', unsafe_allow_html=True)  
-    st.markdown('<div class="sub-header">Selecciona un archivo para leerlo directamente dentro de la plataforma.</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="sub-header">Selecciona un archivo para leerlo cómodamente en pantalla.</div>', unsafe_allow_html=True)  
 
-    # Mapeo del archivo PDF
     ensayos_disponibles = {
         "📄 Ensayo de IA (Subproducto No. 5)": "documentos/Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf"
     }
@@ -436,7 +450,6 @@ elif seccion == "Ensayo":
 
     st.markdown("---")
 
-    # Muestra el PDF página por página sin depender de iframe/base64
     ruta_archivo = ensayos_disponibles[documento_seleccionado]
     mostrar_pdf_integrado(ruta_archivo)
 
