@@ -15,7 +15,7 @@ st.set_page_config(
 # ==========================================
 # 2. GESTIÓN DEL ESTADO DE SESIÓN (SESSION STATE)
 # ==========================================
-# Mantiene registrada la pestaña activa seleccionada por el usuario
+# Mantiene la pestaña activa seleccionada por el usuario entre recargas
 if "seccion_activa" not in st.session_state:
     st.session_state.seccion_activa = "Inteligencia Artificial"
 
@@ -54,7 +54,7 @@ div[data-testid="stSidebar"] div.stButton > button {
     transition: all 0.2s ease !important;
 }
 
-/* Alineación central del texto del botón */
+/* Alineación central del texto dentro de los botones */
 div[data-testid="stSidebar"] div.stButton > button p {
     text-align: center !important;
     width: 100% !important;
@@ -73,7 +73,7 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     color: #FFFFFF !important;
 }
 
-/* Tarjetas y componentes informativos */  
+/* Tarjetas y contenedores de información */  
 .card {  
     background-color: #F8FAFC;  
     border: 1px solid #E2E8F0;  
@@ -105,7 +105,7 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     line-height: 1.6;  
 }  
 
-/* Estilos de botones externos */  
+/* Enlaces con diseño de botón */  
 .link-button {  
     display: inline-block;  
     background-color: #231EB3;  
@@ -219,52 +219,58 @@ GLOSARIO = {
 }  
 
 # ==========================================
-# 5. FUNCIONES AUXILIARES
+# 5. FUNCIONES AUXILIARES OPTIMIZADAS
 # ==========================================
 
-# Función para centrar imágenes
+# Función para renderizar imágenes centradas
 def mostrar_imagen_centrada(ruta):  
     col1, col2, col3 = st.columns([1, 2, 1])  
     with col2:  
         st.image(ruta)  
 
-# Función para renderizar archivos PDF directamente en la app
-def mostrar_pdf_integrado(ruta_pdf):
+# Memoriza la lectura y conversión del PDF para acelerar el tiempo de respuesta
+@st.cache_data
+def obtener_datos_pdf(ruta_pdf):
     pdf_path = Path(ruta_pdf)
-    
-    # Comprueba la existencia del archivo en la ruta
     if pdf_path.is_file():
         try:
             with open(pdf_path, "rb") as f:
                 bytes_data = f.read()
                 base64_pdf = base64.b64encode(bytes_data).decode('utf-8')
-            
-            # Genera la vista embebida dentro de un marco HTML
-            pdf_display = f'''
-                <iframe 
-                    src="data:application/pdf;base64,{base64_pdf}" 
-                    width="100%" 
-                    height="780px" 
-                    type="application/pdf" 
-                    style="border-radius: 12px; border: 1px solid #CBD5E1;">
-                </iframe>
-            '''
-            st.markdown(pdf_display, unsafe_allow_html=True)
-            
-            # Botón adicional de descarga directa
-            st.download_button(
-                label="📥 Descargar PDF",
-                data=bytes_data,
-                file_name=pdf_path.name,
-                mime="application/pdf"
-            )
+            return base64_pdf, bytes_data, pdf_path.name, None
         except Exception as e:
-            st.error(f"Error al procesar el archivo PDF: {e}")
+            return None, None, None, str(e)
+    return None, None, None, "Archivo no encontrado"
+
+# Función para renderizar el PDF en pantalla
+def mostrar_pdf_integrado(ruta_pdf):
+    base64_pdf, bytes_data, nombre_archivo, error = obtener_datos_pdf(ruta_pdf)
+    
+    if base64_pdf:
+        # Genera el visor HTML
+        pdf_display = f'''
+            <iframe 
+                src="data:application/pdf;base64,{base64_pdf}" 
+                width="100%" 
+                height="780px" 
+                type="application/pdf" 
+                style="border-radius: 12px; border: 1px solid #CBD5E1;">
+            </iframe>
+        '''
+        st.markdown(pdf_display, unsafe_allow_html=True)
+        
+        # Botón de descarga directa
+        st.download_button(
+            label="📥 Descargar PDF",
+            data=bytes_data,
+            file_name=nombre_archivo,
+            mime="application/pdf"
+        )
     else:
         st.warning(
-            f"⚠️ **Archivo no encontrado:** `{pdf_path}`\n\n"
-            "Verifica que agregaste el archivo PDF dentro de la carpeta `documentos/` "
-            "y que el nombre coincide exactamente en el código."
+            f"⚠️ **Archivo no detectado:** `{ruta_pdf}`\n\n"
+            "Asegúrate de haber guardado el archivo dentro de la carpeta `documentos/` "
+            "con el nombre exacto: `Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf`."
         )
 
 # ==========================================
@@ -299,7 +305,7 @@ for opcion in opciones_menu:
 seccion = st.session_state.seccion_activa
 
 # ==========================================
-# 7. CONTENIDOS Y PESTAÑAS PRINCIPALES
+# 7. CONTENIDOS Y VISTAS PRINCIPALES
 # ==========================================
 
 # --- SECCIÓN: INTELIGENCIA ARTIFICIAL ---
@@ -409,18 +415,16 @@ elif seccion == "Herramientas":
         </div>  
         ''', unsafe_allow_html=True)  
 
-# --- SECCIÓN: ENSAYO (VISOR PDF INTEGRADO) ---
+# --- SECCIÓN: ENSAYO (VISOR PDF INTEGRADO CON NOMBRE ACTUALIZADO) ---
 elif seccion == "Ensayo":  
     st.markdown('<div class="main-header">Documentos y Ensayos</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Selecciona un archivo para leerlo directamente dentro de la plataforma.</div>', unsafe_allow_html=True)  
 
-    # Diccionario con los archivos PDF vinculados en tu carpeta "documentos"
+    # Mapeo con el nombre exacto de tu archivo PDF
     ensayos_disponibles = {
-        "📄 Ensayo Principal de IA": "documentos/ensayo_ia.pdf",
-        "📄 Impacto Ético en la IA": "documentos/ensayo_etica.pdf"
+        "📄 Ensayo de IA (Subproducto No. 5)": "documentos/Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf"
     }
 
-    # Desplegable para seleccionar el ensayo
     col_seleccion, col_vacio = st.columns([2, 1])
     with col_seleccion:
         documento_seleccionado = st.selectbox(
@@ -430,7 +434,7 @@ elif seccion == "Ensayo":
 
     st.markdown("---")
 
-    # Renderiza el PDF dentro de la pantalla
+    # Renderiza el archivo PDF seleccionado
     ruta_archivo = ensayos_disponibles[documento_seleccionado]
     mostrar_pdf_integrado(ruta_archivo)
 
