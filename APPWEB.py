@@ -139,7 +139,7 @@ GLOSARIO = {
     "Aprendizaje Automático": {
         "categoria": "Fundamentos de IA",
         "descripcion": "Subcampo de la IA que permite a los sistemas aprender y mejorar automáticamente a partir de la experiencia y los datos, sin ser programados explícitamente.",
-        "ejemplo": "Las plataformas de streaming musical necesitan atraer y retener usuarios recomendándoles canciones que se adapten a sus preferencias individuales en un catálogo masivo de lanzamientos.\n\nDatos de Entrada:\n- Características del audio\n- Historial de comportamiento del usuario\n\nProcesamiento:\nAlgoritmos de filtrado colaborativo analizan la relación entre la estructura musical y los patrones guardados.\n\nDatos de Salida:\nSugerencia personalizada de canciones."
+        "ejemplo": "Las plataformas de streaming musical necesitan atraer y retener usuarios recomendándoles canciones que se adapten a sus preferencias individuales en un catálogo masivo de lanzamientos. Para lograrlo, implementan modelos de Machine Learning entrenados con patrones de escucha y características de audio.\n\nDatos de Entrada:\n- Características del audio: La estructura física y acústica de la canción.\n- Historial de comportamiento del usuario: El registro de secuencias de reproducción.\n\nProcesamiento:\nAlgoritmos de filtrado colaborativo y procesamiento de señal analizan la relación entre la estructura musical y los patrones de reproducción guardados.\n\nDatos de Salida:\nSugerencia personalizada de canciones."
     },
     "Big Data": {  
         "categoria": "Datos e Infraestructura",  
