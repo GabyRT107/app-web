@@ -1,6 +1,10 @@
 import streamlit as st  
+import base64
+from pathlib import Path
 
-# Configuración de página profesional  
+# ==========================================
+# 1. CONFIGURACIÓN DE LA PÁGINA
+# ==========================================
 st.set_page_config(  
     page_title="Plataforma de Inteligencia Artificial & Data",  
     page_icon="💻",  
@@ -8,14 +12,19 @@ st.set_page_config(
     initial_sidebar_state="expanded"  
 )  
 
-# 1. Inicializar la sección activa en el Session State
+# ==========================================
+# 2. GESTIÓN DEL ESTADO DE SESIÓN (SESSION STATE)
+# ==========================================
+# Mantiene registrada la pestaña activa seleccionada por el usuario
 if "seccion_activa" not in st.session_state:
     st.session_state.seccion_activa = "Inteligencia Artificial"
 
-# Estilo CSS personalizado
+# ==========================================
+# 3. ESTILOS CSS PERSONALIZADOS
+# ==========================================
 st.markdown("""  
 <style>  
-/* Estilos generales */  
+/* Encabezados principales */
 .main-header {  
     font-size: 2.2rem;  
     font-weight: 700;  
@@ -28,14 +37,14 @@ st.markdown("""
     margin-bottom: 2rem;  
 }  
 
-/* --- BOTONES DEL MENÚ LATERAL (FORZAR CENTRADO Y ANCHO COMPLETO) --- */
+/* Estilo para los botones del menú lateral (tamaño uniforme) */
 div[data-testid="stSidebar"] div.stButton > button {
     width: 100% !important;
-    height: 50px !important;            /* Mismo alto uniforme */
+    height: 50px !important;            
     border-radius: 10px !important;
     display: flex !important;
-    align-items: center !important;     /* Centrado vertical */
-    justify-content: center !important;/* Centrado horizontal */
+    align-items: center !important;     
+    justify-content: center !important;
     text-align: center !important;
     padding: 8px 12px !important;
     font-size: 0.95rem !important;
@@ -45,16 +54,16 @@ div[data-testid="stSidebar"] div.stButton > button {
     transition: all 0.2s ease !important;
 }
 
-/* Forzar centrado del texto interno */
+/* Alineación central del texto del botón */
 div[data-testid="stSidebar"] div.stButton > button p {
     text-align: center !important;
     width: 100% !important;
     margin: 0 !important;
 }
 
-/* Estilo para el botón SELECCIONADO (Activo) */
+/* Estilo visual para la pestaña activa (Botón seleccionado) */
 div[data-testid="stSidebar"] div.stButton > button[kind="primary"] {
-    background-color: #E63946 !important; /* Rojo elegante similar al de tu captura */
+    background-color: #E63946 !important; 
     color: #FFFFFF !important;
     border-color: #E63946 !important;
     font-weight: 700 !important;
@@ -64,7 +73,7 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     color: #FFFFFF !important;
 }
 
-/* Tarjetas modernas */  
+/* Tarjetas y componentes informativos */  
 .card {  
     background-color: #F8FAFC;  
     border: 1px solid #E2E8F0;  
@@ -96,7 +105,7 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     line-height: 1.6;  
 }  
 
-/* Botón personalizado para enlaces externos */  
+/* Estilos de botones externos */  
 .link-button {  
     display: inline-block;  
     background-color: #231EB3;  
@@ -109,7 +118,7 @@ div[data-testid="stSidebar"] div.stButton > button[kind="primary"] p {
     margin-top: 15px;  
 }  
 
-/* Control de tamaño para imágenes */  
+/* Formato centrado para imágenes */  
 div[data-testid="stImage"] img {  
     display: block;  
     margin-left: auto;  
@@ -122,7 +131,9 @@ div[data-testid="stImage"] img {
 </style>  
 """, unsafe_allow_html=True)  
 
-# Base de datos de conceptos  
+# ==========================================
+# 4. BASE DE DATOS DEL GLOSARIO
+# ==========================================
 GLOSARIO = {  
     "IA Simbólica": {  
         "categoria": "Inteligencia Artificial",  
@@ -207,12 +218,58 @@ GLOSARIO = {
     }  
 }  
 
+# ==========================================
+# 5. FUNCIONES AUXILIARES
+# ==========================================
+
+# Función para centrar imágenes
 def mostrar_imagen_centrada(ruta):  
     col1, col2, col3 = st.columns([1, 2, 1])  
     with col2:  
         st.image(ruta)  
 
-# --- NAVEGACIÓN LATERAL CON BOTONES DEL MISMO TAMAÑO ---  
+# Función para renderizar archivos PDF directamente en la app
+def mostrar_pdf_integrado(ruta_pdf):
+    pdf_path = Path(ruta_pdf)
+    
+    # Comprueba la existencia del archivo en la ruta
+    if pdf_path.is_file():
+        try:
+            with open(pdf_path, "rb") as f:
+                bytes_data = f.read()
+                base64_pdf = base64.b64encode(bytes_data).decode('utf-8')
+            
+            # Genera la vista embebida dentro de un marco HTML
+            pdf_display = f'''
+                <iframe 
+                    src="data:application/pdf;base64,{base64_pdf}" 
+                    width="100%" 
+                    height="780px" 
+                    type="application/pdf" 
+                    style="border-radius: 12px; border: 1px solid #CBD5E1;">
+                </iframe>
+            '''
+            st.markdown(pdf_display, unsafe_allow_html=True)
+            
+            # Botón adicional de descarga directa
+            st.download_button(
+                label="📥 Descargar PDF",
+                data=bytes_data,
+                file_name=pdf_path.name,
+                mime="application/pdf"
+            )
+        except Exception as e:
+            st.error(f"Error al procesar el archivo PDF: {e}")
+    else:
+        st.warning(
+            f"⚠️ **Archivo no encontrado:** `{pdf_path}`\n\n"
+            "Verifica que agregaste el archivo PDF dentro de la carpeta `documentos/` "
+            "y que el nombre coincide exactamente en el código."
+        )
+
+# ==========================================
+# 6. MENÚ LATERAL DE NAVEGACIÓN
+# ==========================================
 st.sidebar.title("Navegación")  
 
 opciones_menu = [
@@ -221,10 +278,11 @@ opciones_menu = [
     "Clasificación Clásica", 
     "Disciplinas", 
     "Herramientas", 
+    "Ensayo",
     "Glosario"
 ]
 
-# El parámetro use_container_width=True obliga a que todos midan el 100% del ancho
+# Generación de botones con ancho uniforme
 for opcion in opciones_menu:
     es_activo = (st.session_state.seccion_activa == opcion)
     tipo_boton = "primary" if es_activo else "secondary"
@@ -240,7 +298,11 @@ for opcion in opciones_menu:
 
 seccion = st.session_state.seccion_activa
 
-# --- VISTAS ---  
+# ==========================================
+# 7. CONTENIDOS Y PESTAÑAS PRINCIPALES
+# ==========================================
+
+# --- SECCIÓN: INTELIGENCIA ARTIFICIAL ---
 if seccion == "Inteligencia Artificial":  
     st.markdown('<div class="main-header">¿Qué es la inteligencia artificial (IA)?</div>', unsafe_allow_html=True)  
     st.write(  
@@ -250,6 +312,7 @@ if seccion == "Inteligencia Artificial":
     )  
     mostrar_imagen_centrada("img/IA.jpg")  
 
+# --- SECCIÓN: ANTECEDENTES ---
 elif seccion == "Antecedentes":  
     st.markdown('<div class="main-header">Antecedentes de la IA</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Evolución histórica y momentos clave en el desarrollo de la IA.</div>', unsafe_allow_html=True)  
@@ -265,6 +328,7 @@ elif seccion == "Antecedentes":
     with tab3:  
         mostrar_imagen_centrada("img/3.jpg")  
 
+# --- SECCIÓN: CLASIFICACIÓN CLÁSICA ---
 elif seccion == "Clasificación Clásica":  
     st.markdown('<div class="main-header">Clasificación Clásica de la IA</div>', unsafe_allow_html=True)  
     
@@ -288,6 +352,7 @@ elif seccion == "Clasificación Clásica":
         )  
         mostrar_imagen_centrada("img/6.png")  
 
+# --- SECCIÓN: DISCIPLINAS ---
 elif seccion == "Disciplinas":  
     st.markdown('<div class="main-header">Disciplinas Relacionadas</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Áreas de estudio que convergen en el ecosistema de IA y Datos.</div>', unsafe_allow_html=True)  
@@ -323,6 +388,7 @@ elif seccion == "Disciplinas":
         st.write("**Neurociencia:** Procesamiento cerebral de la información.")  
         mostrar_imagen_centrada("img/Neurociencia.jpg")  
 
+# --- SECCIÓN: HERRAMIENTAS ---
 elif seccion == "Herramientas":  
     st.markdown('<div class="main-header">Herramientas de Inteligencia Artificial</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Accede a las principales plataformas e instrumentos de IA.</div>', unsafe_allow_html=True)  
@@ -343,6 +409,32 @@ elif seccion == "Herramientas":
         </div>  
         ''', unsafe_allow_html=True)  
 
+# --- SECCIÓN: ENSAYO (VISOR PDF INTEGRADO) ---
+elif seccion == "Ensayo":  
+    st.markdown('<div class="main-header">Documentos y Ensayos</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="sub-header">Selecciona un archivo para leerlo directamente dentro de la plataforma.</div>', unsafe_allow_html=True)  
+
+    # Diccionario con los archivos PDF vinculados en tu carpeta "documentos"
+    ensayos_disponibles = {
+        "📄 Ensayo Principal de IA": "documentos/ensayo_ia.pdf",
+        "📄 Impacto Ético en la IA": "documentos/ensayo_etica.pdf"
+    }
+
+    # Desplegable para seleccionar el ensayo
+    col_seleccion, col_vacio = st.columns([2, 1])
+    with col_seleccion:
+        documento_seleccionado = st.selectbox(
+            "📁 Selecciona el documento que deseas consultar:",
+            options=list(ensayos_disponibles.keys())
+        )
+
+    st.markdown("---")
+
+    # Renderiza el PDF dentro de la pantalla
+    ruta_archivo = ensayos_disponibles[documento_seleccionado]
+    mostrar_pdf_integrado(ruta_archivo)
+
+# --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
     st.markdown('<div class="main-header">Directorio de Tecnologías e Inteligencia Artificial</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Plataforma de consulta para términos clave de arquitectura, IA y ciencia de datos.</div>', unsafe_allow_html=True)  
