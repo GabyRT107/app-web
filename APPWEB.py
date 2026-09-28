@@ -18,6 +18,9 @@ st.set_page_config(
 if "seccion_activa" not in st.session_state:
     st.session_state.seccion_activa = "Inteligencia Artificial"
 
+if "pagina_pdf" not in st.session_state:
+    st.session_state.pagina_pdf = 0
+
 # ==========================================
 # 3. ESTILOS CSS PERSONALIZADOS
 # ==========================================
@@ -119,7 +122,7 @@ div[data-testid="stImage"] img {
     margin-left: auto;  
     margin-right: auto;  
     border-radius: 10px;  
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);  
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);  
 }  
 </style>  
 """, unsafe_allow_html=True)  
@@ -241,49 +244,96 @@ def obtener_paginas_pdf(ruta_pdf):
     except Exception as e:
         return None, None, str(e)
 
-# Visor flexible y centrado para PDF
-def mostrar_pdf_integrado(ruta_pdf):
+# Visor interactivo estilo Revista / Libro
+def mostrar_pdf_revista(ruta_pdf):
     imagenes, bytes_data, error = obtener_paginas_pdf(ruta_pdf)
     
     if imagenes:
-        # Barra de control superior para el usuario
-        ctrl_col1, ctrl_col2 = st.columns([2, 1])
-        
-        with ctrl_col1:
+        total_paginas = len(imagenes)
+
+        # Ajuste de índice por seguridad
+        if st.session_state.pagina_pdf >= total_paginas:
+            st.session_state.pagina_pdf = 0
+
+        pag_actual = st.session_state.pagina_pdf
+
+        # --- BARRA DE CONTROL SUPERIOR ---
+        c_descarga, c_tamano = st.columns([2, 1])
+        with c_descarga:
             st.download_button(
-                label="📥 Descargar archivo PDF",
+                label="📥 Descargar PDF original",
                 data=bytes_data,
                 file_name=Path(ruta_pdf).name,
                 mime="application/pdf"
             )
         
-        with ctrl_col2:
-            # Control de tamaño para el usuario
-            ancho_slider = st.select_slider(
-                "🔍 Tamaño de lectura:",
-                options=["Pequeño", "Cómodo", "Grande", "Ancho completo"],
-                value="Cómodo"
+        with c_tamano:
+            tamano_sel = st.select_slider(
+                "🔍 Ancho de vista:",
+                options=["Compacto", "Medio", "Ancho"],
+                value="Medio"
             )
-        
-        st.markdown("---")
-        
-        # Mapeo de proporciones de columnas para el centrado
-        márgenes = {
-            "Pequeño": [2, 3, 2],
-            "Cómodo": [1.5, 4, 1.5],
-            "Grande": [0.8, 5, 0.8],
-            "Ancho completo": [0.01, 1, 0.01]
-        }
-        
-        relacion_cols = márgenes[ancho_slider]
 
-        # Muestra cada página centrada según el ancho elegido
-        for idx, img in enumerate(imagenes):
-            c_left, c_center, c_right = st.columns(relacion_cols)
-            with c_center:
-                st.caption(f"Página {idx + 1} de {len(imagenes)}")
-                st.image(img, use_container_width=True)
-                st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        # --- CONTROLES NAVEGACIÓN ESTILO REVISTA ---
+        col_prev, col_info, col_next = st.columns([1, 2, 1])
+
+        with col_prev:
+            if st.button("⬅️ Página Anterior", use_container_width=True, disabled=(pag_actual == 0)):
+                st.session_state.pagina_pdf -= 1
+                st.rerun()
+
+        with col_info:
+            st.markdown(
+                f"<h4 style='text-align: center; margin: 0; color: #1E293B;'>Página {pag_actual + 1} de {total_paginas}</h4>", 
+                unsafe_allow_html=True
+            )
+
+        with col_next:
+            if st.button("Página Siguiente ➡️", use_container_width=True, disabled=(pag_actual == total_paginas - 1)):
+                st.session_state.pagina_pdf += 1
+                st.rerun()
+
+        # Barra de progreso visual
+        st.progress((pag_actual + 1) / total_paginas)
+
+        # Configuración de márgenes según tamaño
+        mapa_margenes = {
+            "Compacto": [2.5, 3, 2.5],
+            "Medio": [1.8, 4, 1.8],
+            "Ancho": [0.5, 5, 0.5]
+        }
+        márgenes = mapa_margenes[tamano_sel]
+
+        # --- MOSTRAR SOLO LA PÁGINA ACTUAL (ESTILO LIBRO) ---
+        c_left, c_center, c_right = st.columns(márgenes)
+        with c_center:
+            st.image(imagenes[pag_actual], use_container_width=True)
+
+        # --- NAVEGACIÓN INFERIOR RÁPIDA ---
+        st.markdown("<br>", unsafe_allow_html=True)
+        col_b_prev, col_b_info, col_b_next = st.columns([1, 2, 1])
+        with col_b_prev:
+            if st.button("⬅️ Anterior", key="btn_prev_bot", use_container_width=True, disabled=(pag_actual == 0)):
+                st.session_state.pagina_pdf -= 1
+                st.rerun()
+        with col_b_info:
+            # Selector directo de página
+            nueva_pag = st.selectbox(
+                "Ir directamente a:",
+                options=list(range(1, total_paginas + 1)),
+                index=pag_actual,
+                key="select_page_direct"
+            )
+            if nueva_pag - 1 != pag_actual:
+                st.session_state.pagina_pdf = nueva_pag - 1
+                st.rerun()
+        with col_b_next:
+            if st.button("Siguiente ➡️", key="btn_next_bot", use_container_width=True, disabled=(pag_actual == total_paginas - 1)):
+                st.session_state.pagina_pdf += 1
+                st.rerun()
+
     else:
         st.warning(
             f"⚠️ **Archivo no detectado:** `{ruta_pdf}`\n\n"
@@ -432,16 +482,16 @@ elif seccion == "Herramientas":
         </div>  
         ''', unsafe_allow_html=True)  
 
-# --- SECCIÓN: ENSAYO (CENTRADO Y FLEXIBLE) ---
+# --- SECCIÓN: ENSAYO (ESTILO REVISTA) ---
 elif seccion == "Ensayo":  
-    st.markdown('<div class="main-header">Documentos y Ensayos</div>', unsafe_allow_html=True)  
-    st.markdown('<div class="sub-header">Selecciona un archivo para leerlo cómodamente en pantalla.</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="main-header">Lectura de Documentos y Ensayos</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="sub-header">Navega por el documento hoja por hoja como una revista digital.</div>', unsafe_allow_html=True)  
 
     ensayos_disponibles = {
         "📄 Ensayo de IA (Subproducto No. 5)": "documentos/Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf"
     }
 
-    col_seleccion, col_vacio = st.columns([2, 1])
+    col_seleccion, _ = st.columns([2, 1])
     with col_seleccion:
         documento_seleccionado = st.selectbox(
             "📁 Selecciona el documento que deseas consultar:",
@@ -451,7 +501,7 @@ elif seccion == "Ensayo":
     st.markdown("---")
 
     ruta_archivo = ensayos_disponibles[documento_seleccionado]
-    mostrar_pdf_integrado(ruta_archivo)
+    mostrar_pdf_revista(ruta_archivo)
 
 # --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
