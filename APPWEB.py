@@ -496,7 +496,7 @@ elif seccion == "Glosario":
             ejemplo_html = ""
             if "ejemplo" in item:
                 texto_ejemplo = item["ejemplo"].replace("\n", "<br>")
-                ejemplo_html = f'<div style="margin-top:15px; padding-top:15px; border-top:1px solid #E2E8F0;"><strong style="color:#0F172A;">Ejemplo práctico:</strong><p style="color:#475569; font-size:1.0rem; margin-top:8px;">{texto_ejemplo}</p></div>'
+                ejemplo_html = f'<div style="margin-top:15px; padding-top:15px; border-top:1px solid #E2E8F0;"><strong style="color:#0F172A;">Ejemplo práctico:</strong><p style="color:#475569; font-size:0.95rem; margin-top:8px;">{texto_ejemplo}</p></div>'
 
             card_html = f'<div class="card"><span class="category-tag">{item["categoria"]}</span><div class="term-title">{seleccion}</div><div class="term-desc">{item["descripcion"]}</div>{ejemplo_html}</div>'
             
