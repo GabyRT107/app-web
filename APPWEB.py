@@ -220,11 +220,10 @@ GLOSARIO = {
 # 5. FUNCIONES AUXILIARES OPTIMIZADAS
 # ==========================================
 
-# Se ajustó para ampliar la imagen ocupando casi todo el espacio central
 def mostrar_imagen_centrada(ruta):  
-    col1, col2, col3 = st.columns([0.05, 0.9, 0.05])  
+    col1, col2, col3 = st.columns([1, 2, 1])  
     with col2:  
-        st.image(ruta, use_container_width=True)  
+        st.image(ruta)  
 
 # Extrae páginas como imágenes con caché
 @st.cache_data
@@ -508,7 +507,7 @@ elif seccion == "Glosario":
             
             st.markdown(card_html, unsafe_allow_html=True)
 
-            # Muestra la imagen utilizando el ancho completo del contenedor
+            # Si el término tiene una imagen definida, la muestra centrada debajo de la tarjeta
             if "imagen" in item:
                 st.markdown("<br>", unsafe_allow_html=True)
                 mostrar_imagen_centrada(item["imagen"])
