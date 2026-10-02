@@ -212,7 +212,7 @@ GLOSARIO = {
     "Sistema Inteligente": {  
         "categoria": "Sistemas Inteligentes",  
         "descripcion": "es un conjunto de tecnología industrial avanzada, sensores y algoritmos, que trabajan conjuntamente para llevar a cabo tareas específicas de manera autónoma y eficiente.",
-        "imagen": "img/1.jpg"
+        "imagen": "img/SI.jpg"
     }  
 }  
 
