@@ -212,7 +212,7 @@ GLOSARIO = {
     "Sistema Inteligente": {  
         "categoria": "Sistemas Inteligentes",  
         "descripcion": "es un conjunto de tecnología industrial avanzada, sensores y algoritmos, que trabajan conjuntamente para llevar a cabo tareas específicas de manera autónoma y eficiente.",
-        "imagen": "img/SI.jpg"
+        "imagen": "img/1.jpg"
     }  
 }  
 
@@ -220,10 +220,11 @@ GLOSARIO = {
 # 5. FUNCIONES AUXILIARES OPTIMIZADAS
 # ==========================================
 
+# Se ajustó para ampliar la imagen ocupando casi todo el espacio central
 def mostrar_imagen_centrada(ruta):  
-    col1, col2, col3 = st.columns([1, 2, 1])  
+    col1, col2, col3 = st.columns([0.05, 0.9, 0.05])  
     with col2:  
-        st.image(ruta)  
+        st.image(ruta, use_container_width=True)  
 
 # Extrae páginas como imágenes con caché
 @st.cache_data
@@ -507,7 +508,7 @@ elif seccion == "Glosario":
             
             st.markdown(card_html, unsafe_allow_html=True)
 
-            # Si el término tiene una imagen definida, la muestra centrada debajo de la tarjeta
+            # Muestra la imagen utilizando el ancho completo del contenedor
             if "imagen" in item:
                 st.markdown("<br>", unsafe_allow_html=True)
                 mostrar_imagen_centrada(item["imagen"])
