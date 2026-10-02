@@ -208,6 +208,11 @@ GLOSARIO = {
     "IA Responsable": {  
         "categoria": "Gobernanza & Ética",  
         "descripcion": "Enfoque metódico para el desarrollo de sistemas de IA seguros, transparentes y éticos."  
+    },
+    "Sistema Inteligente": {  
+        "categoria": "Sistemas Inteligentes",  
+        "descripcion": "es un conjunto de tecnología industrial avanzada, sensores y algoritmos, que trabajan conjuntamente para llevar a cabo tareas específicas de manera autónoma y eficiente.",
+        "imagen": "img/SI.jpg"
     }  
 }  
 
@@ -501,3 +506,8 @@ elif seccion == "Glosario":
             card_html = f'<div class="card"><span class="category-tag">{item["categoria"]}</span><div class="term-title">{seleccion}</div><div class="term-desc">{item["descripcion"]}</div>{ejemplo_html}</div>'
             
             st.markdown(card_html, unsafe_allow_html=True)
+
+            # Si el término tiene una imagen definida, la muestra centrada debajo de la tarjeta
+            if "imagen" in item:
+                st.markdown("<br>", unsafe_allow_html=True)
+                mostrar_imagen_centrada(item["imagen"])
