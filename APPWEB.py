@@ -300,11 +300,11 @@ st.sidebar.title("Navegación")
 opciones_menu = [
     "Inteligencia Artificial", 
     "Antecedentes", 
-    "Algoritmos de búsqueda",  # <-- NUEVO BOTÓN AÑADIDO AQUÍ
     "Clasificación Clásica", 
     "Disciplinas", 
     "Herramientas", 
     "Ensayo",
+    "Algoritmos de búsqueda",  # <-- BOTÓN COLOCADO DESPUÉS DE ENSAYO
     "Glosario"
 ]
 
@@ -352,25 +352,6 @@ elif seccion == "Antecedentes":
 
     with tab3:  
         mostrar_imagen_centrada("img/3.jpg")  
-
-# --- SECCIÓN: ALGORITMOS DE BÚSQUEDA ---
-elif seccion == "Algoritmos de búsqueda":  
-    st.markdown('<div class="main-header">Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
-    st.markdown('<div class="sub-header">Investigación e infografía sobre los algoritmos de búsqueda.</div>', unsafe_allow_html=True)  
-
-    tab_investigacion, tab_infografia = st.tabs(["Investigación", "Infografía"])  
-
-    with tab_investigacion:  
-        st.write("### Investigación de Algoritmos de Búsqueda")
-        st.write("Aquí puedes colocar el texto, contenido o la imagen correspondiente a la investigación.")
-        # Ejemplo si tienes una imagen para investigación:
-        # mostrar_imagen_centrada("img/investigacion_busqueda.jpg")
-
-    with tab_infografia:  
-        st.write("### Infografía de Algoritmos de Búsqueda")
-        st.write("Aquí puedes colocar el contenido o imagen correspondiente a la infografía.")
-        # Ejemplo si tienes una imagen para la infografía:
-        # mostrar_imagen_centrada("img/infografia_busqueda.jpg")
 
 # --- SECCIÓN: CLASIFICACIÓN CLÁSICA ---
 elif seccion == "Clasificación Clásica":  
@@ -473,6 +454,25 @@ elif seccion == "Ensayo":
 
     ruta_archivo = ensayos_disponibles[documento_seleccionado]
     mostrar_pdf_integrado(ruta_archivo)
+
+# --- SECCIÓN: ALGORITMOS DE BÚSQUEDA ---
+elif seccion == "Algoritmos de búsqueda":  
+    st.markdown('<div class="main-header">Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="sub-header">Investigación e infografía sobre los algoritmos de búsqueda.</div>', unsafe_allow_html=True)  
+
+    tab_investigacion, tab_infografia = st.tabs(["Investigación", "Infografía"])  
+
+    with tab_investigacion:  
+        st.write("### Investigación de Algoritmos de Búsqueda")
+        st.write("Aquí puedes colocar el texto, contenido o la imagen correspondiente a la investigación.")
+        # Ejemplo si tienes una imagen:
+        # mostrar_imagen_centrada("img/investigacion_busqueda.jpg")
+
+    with tab_infografia:  
+        st.write("### Infografía de Algoritmos de Búsqueda")
+        st.write("Aquí puedes colocar el contenido o imagen correspondiente a la infografía.")
+        # Ejemplo si tienes una imagen:
+        # mostrar_imagen_centrada("img/infografia_busqueda.jpg")
 
 # --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
