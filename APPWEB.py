@@ -251,7 +251,6 @@ def mostrar_pdf_integrado(ruta_pdf):
     imagenes, bytes_data, error = obtener_paginas_pdf(ruta_pdf)
     
     if imagenes:
-        # Barra de control superior para el usuario
         ctrl_col1, ctrl_col2 = st.columns([2, 1])
         
         with ctrl_col1:
@@ -263,7 +262,6 @@ def mostrar_pdf_integrado(ruta_pdf):
             )
         
         with ctrl_col2:
-            # Control de tamaño para el usuario
             ancho_slider = st.select_slider(
                 "🔍 Tamaño de lectura:",
                 options=["Pequeño", "Cómodo", "Grande", "Ancho completo"],
@@ -272,7 +270,6 @@ def mostrar_pdf_integrado(ruta_pdf):
         
         st.markdown("---")
         
-        # Mapeo de proporciones de columnas para el centrado
         márgenes = {
             "Pequeño": [2, 3, 2],
             "Cómodo": [1.5, 4, 1.5],
@@ -282,7 +279,6 @@ def mostrar_pdf_integrado(ruta_pdf):
         
         relacion_cols = márgenes[ancho_slider]
 
-        # Muestra cada página centrada según el ancho elegido
         for idx, img in enumerate(imagenes):
             c_left, c_center, c_right = st.columns(relacion_cols)
             with c_center:
@@ -293,7 +289,7 @@ def mostrar_pdf_integrado(ruta_pdf):
         st.warning(
             f"⚠️ **Archivo no detectado:** `{ruta_pdf}`\n\n"
             f"Detalle: {error}\n\n"
-            "Asegúrate de que el archivo se encuentre en `documentos/Actividad_Desarrollo_Subproducto_No_5_Ensayo.pdf`."
+            f"Asegúrate de que el archivo exista en la ruta especificada."
         )
 
 # ==========================================
@@ -304,6 +300,7 @@ st.sidebar.title("Navegación")
 opciones_menu = [
     "Inteligencia Artificial", 
     "Antecedentes", 
+    "Algoritmos de búsqueda",  # <-- NUEVO BOTÓN AÑADIDO AQUÍ
     "Clasificación Clásica", 
     "Disciplinas", 
     "Herramientas", 
@@ -355,6 +352,25 @@ elif seccion == "Antecedentes":
 
     with tab3:  
         mostrar_imagen_centrada("img/3.jpg")  
+
+# --- SECCIÓN: ALGORITMOS DE BÚSQUEDA ---
+elif seccion == "Algoritmos de búsqueda":  
+    st.markdown('<div class="main-header">Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="sub-header">Investigación e infografía sobre los algoritmos de búsqueda.</div>', unsafe_allow_html=True)  
+
+    tab_investigacion, tab_infografia = st.tabs(["Investigación", "Infografía"])  
+
+    with tab_investigacion:  
+        st.write("### Investigación de Algoritmos de Búsqueda")
+        st.write("Aquí puedes colocar el texto, contenido o la imagen correspondiente a la investigación.")
+        # Ejemplo si tienes una imagen para investigación:
+        # mostrar_imagen_centrada("img/investigacion_busqueda.jpg")
+
+    with tab_infografia:  
+        st.write("### Infografía de Algoritmos de Búsqueda")
+        st.write("Aquí puedes colocar el contenido o imagen correspondiente a la infografía.")
+        # Ejemplo si tienes una imagen para la infografía:
+        # mostrar_imagen_centrada("img/infografia_busqueda.jpg")
 
 # --- SECCIÓN: CLASIFICACIÓN CLÁSICA ---
 elif seccion == "Clasificación Clásica":  
@@ -507,7 +523,6 @@ elif seccion == "Glosario":
             
             st.markdown(card_html, unsafe_allow_html=True)
 
-            # Si el término tiene una imagen definida, la muestra centrada debajo de la tarjeta
             if "imagen" in item:
                 st.markdown("<br>", unsafe_allow_html=True)
                 mostrar_imagen_centrada(item["imagen"])
