@@ -521,7 +521,7 @@ elif seccion == "Algoritmos de búsqueda":
         with col1:
             st.markdown("""
             <div class="card" style="border-top: 5px solid #3B82F6;">
-                <div class="category-tag">Búsqueda 1</div>
+                <div class="category-tag">Búsqueda 01</div>
                 <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Ciega <br>(o No Informada)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
                     <b>Funcionamiento:</b><br>
