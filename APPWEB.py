@@ -1,7 +1,6 @@
 import streamlit as st  
 import pdfplumber
 from pathlib import Path
-import pandas as pd
 
 # ==========================================
 # 1. CONFIGURACIÓN DE LA PÁGINA
@@ -513,46 +512,87 @@ elif seccion == "Algoritmos de búsqueda":
         """)  
 
     with tab_tabla:  
-        st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
-        st.markdown('<div class="sub-header">Tabla detallada y completa con todas las características y clasificaciones de los algoritmos de búsqueda.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="main-header">Tabla Comparativa Interactiva: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
+        st.markdown('<div class="sub-header">Análisis detallado de funcionamiento, ventajas, desventajas, ejemplos clásicos y aplicaciones prácticas del documento[cite: 3].</div>', unsafe_allow_html=True)
 
-        # Creación de la tabla completa utilizando pandas y st.dataframe
-        df_tabla_comparativa = pd.DataFrame({
-            "Categoría / Tipo": [
-                "Búsqueda Lineal (o Secuencial)", 
-                "Búsqueda Binaria", 
-                "Búsqueda en Estructuras No Lineales", 
-                "Búsqueda Ciega (o No Informada)", 
-                "Búsqueda Informada (o Heurística)", 
-                "Búsqueda Evolutiva (o Metaheurística)"
-            ],
-            "Criterio / Organización": [
-                "Según organización y estado de los datos",
-                "Según organización y estado de los datos",
-                "Según organización y estado de los datos",
-                "Según estrategia de exploración (IA)",
-                "Según estrategia de exploración (IA)",
-                "Según estrategia de exploración (IA)"
-            ],
-            "Funcionamiento Principal": [
-                "Recorre la estructura de datos iterando elemento por elemento de manera consecutiva desde la primera posición hasta hallar coincidencia.",
-                "Requiere datos ordenados. Evalúa el elemento central del rango actual y descarta mitades enteras según sea mayor o menor.",
-                "Explora colecciones de datos organizadas en jerarquías o redes de nodos interconectados (árboles y grafos) mediante reglas topológicas.",
-                "Explora el espacio de soluciones o nodos de manera sistemática siguiendo una secuencia fija predeterminada.",
-                "Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema.",
-                "Simula computacionalmente la selección natural sobre una población iterativa de soluciones candidatas."
-            ],
-            "Características y Aplicación": [
-                "Es totalmente independiente del orden previo de los datos en la colección.",
-                "Altamente eficiente mediante acotamiento iterativo de rangos de búsqueda.",
-                "Emplea reglas como comparar claves en árboles binarios o visitar nodos adyacentes en grafos.",
-                "No utiliza información adicional, métricas de distancia ni conocimiento previo sobre la ubicación del objetivo.",
-                "Calcula la proximidad al objetivo priorizando rutas con mayor probabilidad de éxito computacional.",
-                "Evalúa niveles de aptitud (fitness) y aplica operadores de cruce (crossover) y mutación genética."
-            ]
-        })
+        # Diseño estético mediante tarjetas separadas por cada tipo de algoritmo del documento Word
+        col1, col2, col3 = st.columns(3)
 
-        st.dataframe(df_tabla_comparativa, use_container_width=True, hide_index=True)
+        with col1:
+            st.markdown("""
+            <div class="card" style="border-top: 5px solid #3B82F6;">
+                <div class="category-tag">Estrategia 01</div>
+                <div class="term-title" style="font-size: 1.3rem;">🔍 Búsqueda Ciega <br>(o No Informada)</div>
+                <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
+                    <b>⚙️ Funcionamiento:</b><br>
+                    Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) siguiendo una secuencia fija predeterminada, sin usar información adicional ni conocimiento previo[cite: 3].<br><br>
+                    <b>✅ Ventajas:</b><br>
+                    • Es completa (garantiza solución si existe).<br>
+                    • No requiere conocimiento experto previo[cite: 3].<br><br>
+                    <b>❌ Desventajas:</b><br>
+                    • Muy ineficiente en espacios grandes.<br>
+                    • Alto costo computacional (explosión combinatoria)[cite: 3].<br><br>
+                    <b>🧩 Ejemplos Clásicos:</b><br>
+                    • Búsqueda en Anchura (BFS)<br>
+                    • Búsqueda en Profundidad (DFS)<br>
+                    • Costo Uniforme[cite: 3].<br><br>
+                    <b>📍 Dónde se encuentra en IA:</b><br>
+                    Resolución de puzzles clásicos (8 números, Cubo de Rubik) y sistemas expertos simples[cite: 3].<br><br>
+                    <b>🎯 Aplicación Práctica:</b><br>
+                    <b>Web Crawling:</b> Motores de búsqueda primitivos usaban BFS para indexar páginas web recorriendo hipervínculos exhaustivamente[cite: 3].
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="card" style="border-top: 5px solid #10B981;">
+                <div class="category-tag">Estrategia 02</div>
+                <div class="term-title" style="font-size: 1.3rem;">🗺️ Búsqueda Informada <br>(o Heurística)</div>
+                <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
+                    <b>⚙️ Funcionamiento:</b><br>
+                    Incorpora funciones heurísticas o estimaciones matemáticas para calcular la proximidad al objetivo, priorizando rutas con mayor probabilidad de éxito[cite: 3].<br><br>
+                    <b>✅ Ventajas:</b><br>
+                    • Mucho más rápida, directa y eficiente.<br>
+                    • Reduce nodos explorados mediante pistas lógicas[cite: 3].<br><br>
+                    <b>❌ Desventajas:</b><br>
+                    • Su eficiencia depende de la calidad de la heurística. Si está mal diseñada, falla o se vuelve imprecisa[cite: 3].<br><br>
+                    <b>🧩 Ejemplos Clásicos:</b><br>
+                    • Búsqueda A* (A-Star)<br>
+                    • Greedy Best-First Search[cite: 3].<br><br>
+                    <b>📍 Dónde se encuentra en IA:</b><br>
+                    Sistemas GPS, pathfinding en videojuegos y robótica autónoma (rovers espaciales)[cite: 3].<br><br>
+                    <b>🎯 Aplicación Práctica:</b><br>
+                    <b>Google Maps / Waze:</b> Combinan distancias reales de calles con matemáticas para calcular rutas rápidas y esquivar tráfico[cite: 3].
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col3:
+            st.markdown("""
+            <div class="card" style="border-top: 5px solid #F59E0B;">
+                <div class="category-tag">Estrategia 03</div>
+                <div class="term-title" style="font-size: 1.3rem;">🧬 Búsqueda Evolutiva <br>(o Metaheurística)</div>
+                <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
+                    <b>⚙️ Funcionamiento:</b><br>
+                    Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética generacional[cite: 3].<br><br>
+                    <b>✅ Ventajas:</b><br>
+                    • Ideal para problemas masivos no lineales (NP-hard).<br>
+                    • Capacidad de escapar de óptimos locales[cite: 3].<br><br>
+                    <b>❌ Desventajas:</b><br>
+                    • No garantiza el óptimo absoluto global.<br>
+                    • Requiere calibrar múltiples parámetros técnicos[cite: 3].<br><br>
+                    <b>🧩 Ejemplos Clásicos:</b><br>
+                    • Algoritmos Genéticos (AG)<br>
+                    • Enjambre de Partículas (PSO)<br>
+                    • Colonia de Hormigas[cite: 3].<br><br>
+                    <b>📍 Dónde se encuentra en IA:</b><br>
+                    Optimización de hiperparámetros, NAS en redes neuronales y gestión de cadenas de suministro[cite: 3].<br><br>
+                    <b>🎯 Aplicación Práctica:</b><br>
+                    <b>Logística y VRP:</b> Simulación masiva de combinaciones para flotas de camiones maximizando ahorro de combustible y tiempos de entrega[cite: 3].
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
 # --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
