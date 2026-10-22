@@ -122,6 +122,38 @@ div[data-testid="stImage"] img {
     border-radius: 10px;  
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);  
 }  
+
+/* Estilos para tarjetas de comparación estéticas */
+.algo-card {
+    background-color: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+.algo-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #F1F5F9;
+}
+.algo-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748B;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+}
+.algo-text {
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.5;
+}
 </style>  
 """, unsafe_allow_html=True)  
 
@@ -513,49 +545,96 @@ elif seccion == "Algoritmos de búsqueda":
         """)  
 
     with tab_tabla:  
-        st.markdown("### Tabla comparativa de algoritmos de búsqueda")
-        st.write("Aquí puedes visualizar la tabla comparativa completa basada en la clasificación de algoritmos de búsqueda[cite: 2]:")
-        
-        df_comparativa = pd.DataFrame({
-            "Criterio / Estrategia": [
-                "Funcionamiento", 
-                "Ventajas", 
-                "Desventajas", 
-                "Ejemplos Clásicos", 
-                "Dónde se encuentra en IA", 
-                "🎯 Aplicación Práctica", 
-                "Características Principales"
-            ],
-            "Búsqueda Ciega (o No Informada)": [
-                "Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) siguiendo una secuencia fija, sin usar información adicional ni conocimiento previo[cite: 2].",
-                "• Es completa (garantiza encontrar solución si existe).\n• No requiere conocimiento experto previo[cite: 2].",
-                "• Muy ineficiente en espacios grandes.\n• Alto costo computacional (explosión combinatoria)[cite: 2].",
-                "• Búsqueda en Anchura (BFS)\n• Búsqueda en Profundidad (DFS)\n• Costo Uniforme[cite: 2]",
-                "• Resolución de puzzles clásicos (8 números, Cubo de Rubik).\n• Motores de inferencia simples[cite: 2].",
-                "**Web Crawling:** Motores primitivos usaban BFS para indexar hipervínculos de páginas web de forma exhaustiva[cite: 2].",
-                "• Ciega e inflexible.\n• Basada en fuerza bruta.\n• Trata a todos los caminos por igual[cite: 2]."
-            ],
-            "Búsqueda Informada (o Heurística)": [
-                "Incorpora funciones heurísticas o estimaciones matemáticas para calcular la distancia a la meta, priorizando rutas con mayor probabilidad de éxito[cite: 2].",
-                "• Mucho más rápida, directa y eficiente.\n• Reduce drásticamente los nodos explorados mediante pistas lógicas[cite: 2].",
-                "• Su eficiencia depende de la calidad de la heurística; si está mal diseñada, puede ser errónea[cite: 2].",
-                "• Búsqueda A* (A-Star)\n• Búsqueda Voraz Primero el Mejor (Greedy Best-First)[cite: 2]",
-                "• Sistemas de navegación GPS.\n• IA en videojuegos (Pathfinding).\n• Robótica autónoma (rovers)[cite: 2].",
-                "**Sistemas GPS (Google Maps / Waze):** Combinan calles reales con estimaciones matemáticas para hallar la ruta más rápida y esquivar tráfico[cite: 2].",
-                "• Guiada por objetivos y pistas lógicas.\n• Usa estimaciones matemáticas.\n• Inteligente y direccional[cite: 2]."
-            ],
-            "Búsqueda Evolutiva (o Metaheurística)": [
-                "Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética[cite: 2].",
-                "• Excelente para problemas NP-hard complejos y no lineales.\n• Capacidad de escapar de óptimos locales[cite: 2].",
-                "• No garantiza el óptimo global absoluto.\n• Requiere calibrar múltiples parámetros (tasa de mutación, población)[cite: 2].",
-                "• Algoritmos Genéticos (AG)\n• Enjambre de Partículas (PSO)\n• Colonia de Hormigas[cite: 2]",
-                "• Optimización de Hiperparámetros en Machine Learning.\n• Redes Neuronales (NAS).\n• Logística[cite: 2].",
-                "**Logística (VRP):** Simula miles de combinaciones de entrega para minimizar consumo de combustible y costos operativos[cite: 2].",
-                "• Poblacional (múltiples soluciones).\n• Estocástica (aleatoriedad).\n• Basada en mejora iterativa y adaptación[cite: 2]."
-            ]
-        })
-        
-        st.dataframe(df_comparativa, use_container_width=True)
+        st.markdown("### Tabla Comparativa: Clasificación de Algoritmos de Búsqueda")
+        st.markdown("Visualización estructurada y detallada de las estrategias de búsqueda[cite: 2].")
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # Diseño estético en 3 columnas responsivas y limpias
+        col_c1, col_c2, col_c3 = st.columns(3)
+
+        with col_c1:
+            st.markdown("""
+            <div class="algo-card">
+                <div class="algo-title" style="color: #0369A1;">🔍 Búsqueda Ciega (o No Informada)</div>
+                
+                <div class="algo-section-title">Funcionamiento</div>
+                <div class="algo-text">Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) con secuencia fija, sin información adicional ni conocimiento previo[cite: 2].</div>
+                
+                <div class="algo-section-title">Ventajas</div>
+                <div class="algo-text">• Es completa (garantiza solución si existe).<br>• No requiere conocimientos previos[cite: 2].</div>
+                
+                <div class="algo-section-title">Desventajas</div>
+                <div class="algo-text">• Muy ineficiente en espacios grandes.<br>• Alto costo computacional (explosión combinatoria)[cite: 2].</div>
+                
+                <div class="algo-section-title">Ejemplos Clásicos</div>
+                <div class="algo-text">• Búsqueda en Anchura (BFS)<br>• Búsqueda en Profundidad (DFS)<br>• Costo Uniforme[cite: 2].</div>
+                
+                <div class="algo-section-title">Dónde se encuentra en IA</div>
+                <div class="algo-text">• Puzzles clásicos (8 números, Cubo de Rubik).<br>• Motores de inferencia simples[cite: 2].</div>
+                
+                <div class="algo-section-title">🎯 Aplicación Práctica</div>
+                <div class="algo-text"><b>Web Crawling:</b> Motores primitivos usaban BFS para indexar hipervínculos de páginas de forma exhaustiva[cite: 2].</div>
+                
+                <div class="algo-section-title">Características Principales</div>
+                <div class="algo-text">• Ciega e inflexible.<br>• Basada en fuerza bruta.<br>• Trata a todos los caminos por igual[cite: 2].</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col_c2:
+            st.markdown("""
+            <div class="algo-card">
+                <div class="algo-title" style="color: #15803D;">🗺️ Búsqueda Informada (o Heurística)</div>
+                
+                <div class="algo-section-title">Funcionamiento</div>
+                <div class="algo-text">Incorpora funciones heurísticas o estimaciones matemáticas para calcular la distancia a la meta, priorizando rutas con mayor probabilidad de éxito[cite: 2].</div>
+                
+                <div class="algo-section-title">Ventajas</div>
+                <div class="algo-text">• Mucho más rápida, directa y eficiente.<br>• Reduce drásticamente los nodos explorados con pistas lógicas[cite: 2].</div>
+                
+                <div class="algo-section-title">Desventajas</div>
+                <div class="algo-text">• Su eficiencia depende enteramente de la calidad de la heurística diseñada[cite: 2].</div>
+                
+                <div class="algo-section-title">Ejemplos Clásicos</div>
+                <div class="algo-text">• Búsqueda A* (A-Star)<br>• Búsqueda Voraz Primero el Mejor (Greedy Best-First)[cite: 2].</div>
+                
+                <div class="algo-section-title">Dónde se encuentra en IA</div>
+                <div class="algo-text">• Sistemas de navegación GPS.<br>• IA en videojuegos (Pathfinding).<br>• Robótica autónoma (rovers)[cite: 2].</div>
+                
+                <div class="algo-section-title">🎯 Aplicación Práctica</div>
+                <div class="algo-text"><b>Sistemas GPS (Google Maps / Waze):</b> Combinan calles reales con estimaciones matemáticas para hallar rutas rápidas y esquivar tráfico[cite: 2].</div>
+                
+                <div class="algo-section-title">Características Principales</div>
+                <div class="algo-text">• Guiada por objetivos y pistas lógicas.<br>• Usa estimaciones matemáticas.<br>• Inteligente y direccional[cite: 2].</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col_c3:
+            st.markdown("""
+            <div class="algo-card">
+                <div class="algo-title" style="color: #C2410C;">🧬 Búsqueda Evolutiva (o Metaheurística)</div>
+                
+                <div class="algo-section-title">Funcionamiento</div>
+                <div class="algo-text">Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética[cite: 2].</div>
+                
+                <div class="algo-section-title">Ventajas</div>
+                <div class="algo-text">• Excelente para problemas complejos no lineales (NP-hard).<br>• Capacidad de escapar de óptimos locales[cite: 2].</div>
+                
+                <div class="algo-section-title">Desventajas</div>
+                <div class="algo-text">• No garantiza el óptimo global absoluto.<br>• Requiere calibrar múltiples parámetros (tasa de mutación, población)[cite: 2].</div>
+                
+                <div class="algo-section-title">Ejemplos Clásicos</div>
+                <div class="algo-text">• Algoritmos Genéticos (AG)<br>• Enjambre de Partículas (PSO)<br>• Colonia de Hormigas[cite: 2].</div>
+                
+                <div class="algo-section-title">Dónde se encuentra en IA</div>
+                <div class="algo-text">• Hiperparámetros en Machine Learning.<br>• Redes Neuronales (NAS).<br>• Gestión de cadenas de suministro[cite: 2].</div>
+                
+                <div class="algo-section-title">🎯 Aplicación Práctica</div>
+                <div class="algo-text"><b>Logística (VRP):</b> Simula miles de combinaciones para flotas de camiones, hallando rutas que minimizan combustible[cite: 2].</div>
+                
+                <div class="algo-section-title">Características Principales</div>
+                <div class="algo-text">• Poblacional (múltiples soluciones).<br>• Estocástica (aleatoriedad).<br>• Basada en mejora iterativa[cite: 2].</div>
+            </div>
+            """, unsafe_allow_html=True)
 
 # --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
