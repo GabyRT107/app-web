@@ -458,65 +458,71 @@ elif seccion == "Ensayo":
 # --- SECCIÓN: ALGORITMOS DE BÚSQUEDA ---
 elif seccion == "Algoritmos de búsqueda":  
     st.markdown('<div class="main-header">Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
-    st.markdown('<div class="sub-header">Investigación e infografía sobre los algoritmos de búsqueda.</div>', unsafe_allow_html=True)  
+    st.markdown('<div class="sub-header">Información general sobre los algoritmos de búsqueda.</div>', unsafe_allow_html=True)  
 
-    tab_investigacion, tab_infografia = st.tabs(["Investigación", "Infografía"])  
+    # Pestañas solicitadas separadas individualmente
+    tab_def, tab_elem, tab_clas, tab_tabla = st.tabs([
+        "Definición", 
+        "Elementos", 
+        "Clasificación", 
+        "Tabla comparativa"
+    ])  
 
-    with tab_investigacion:  
-        # Sub-pestañas o separadores internos para organizar cada apartado por separado
-        sub_tab1, sub_tab2, sub_tab3, sub_tab4 = st.tabs([
-            "🔍 Definición", 
-            "🧩 Elementos", 
-            "💡 Ejemplo", 
-            "📊 Clasificación"
-        ])
+    with tab_def:  
+        st.markdown("### Definición")
+        st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial[cite: 1].")
+        
+        st.markdown("### Ejemplo ilustrativo")
+        st.write("Imagina que buscas el número 7 en el siguiente conjunto de datos: `[12, 4, 7, 19, 3]`[cite: 1]")
+        st.markdown("""
+        * **Paso 1:** ¿Es 12 igual a 7? No. Se pasa al siguiente[cite: 1].
+        * **Paso 2:** ¿Es 4 igual a 7? No. Se pasa al siguiente[cite: 1].
+        * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar[cite: 1].
+        """)
+        
+        # Imagen corregida correctamente
+        mostrar_imagen_centrada("img/AB.png")
 
-        with sub_tab1:
-            st.markdown("### Definición")
-            st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial.")
-            mostrar_imagen_centrada("img/AB.png")
+    with tab_elem:  
+        st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
+        st.markdown("""
+        * **Conjunto de datos (o Espacio de búsqueda):** La colección de datos o la estructura donde se realizará la búsqueda (por ejemplo, un arreglo, lista, árbol o grafo)[cite: 1].
+        * **Clave de búsqueda (o Elemento objetivo):** El valor o criterio específico que se desea encontrar[cite: 1].
+        * **Criterio de comparación (o Función de evaluación):** La regla o función que determina si un elemento actual coincide con la clave buscada, o si es mayor/menor para guiar el recorrido[cite: 1].
+        * **Puntero o Índice de posición:** La variable o referencia que indica qué posición o nodo se está examinando en cada momento[cite: 1].
+        * **Estrategia o Regla de tránsito:** La lógica que determina cuál será el siguiente elemento a examinar (por ejemplo, avanzar secuencialmente, dividir el rango a la mitad, o seguir una heurística)[cite: 1].
+        * **Condición de parada:** Las reglas que marcan el fin del algoritmo, las cuales son principalmente dos: **Éxito** (se encontró la clave) y **Fallo** (se examinó todo sin encontrar el objetivo)[cite: 1].
+        * **Resultado o Retorno:** El valor final devuelto por el algoritmo, que suele ser el índice/ubicación del elemento si se encuentra, o un indicador de ausencia (como -1 o null) si no existe[cite: 1].
+        """)
 
-        with sub_tab2:
-            st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
-            st.markdown("""
-            * **Conjunto de datos (o Espacio de búsqueda):** La colección de datos o la estructura donde se realizará la búsqueda (por ejemplo, un arreglo, lista, árbol o grafo).
-            * **Clave de búsqueda (o Elemento objetivo):** El valor o criterio específico que se desea encontrar.
-            * **Criterio de comparación (o Función de evaluación):** La regla o función que determina si un elemento actual coincide con la clave buscada, o si es mayor/menor para guiar el recorrido.
-            * **Puntero o Índice de posición:** La variable o referencia que indica qué posición o nodo se está examinando en cada momento.
-            * **Estrategia o Regla de tránsito:** La lógica que determina cuál será el siguiente elemento a examinar (por ejemplo, avanzar secuencialmente, dividir el rango a la mitad, o seguir una heurística).
-            * **Condición de parada:** Las reglas que marcan el fin del algoritmo, las cuales son principalmente dos: **Éxito** (se encontró la clave) y **Fallo** (se examinó todo sin encontrar el objetivo).
-            * **Resultado o Retorno:** El valor final devuelto por el algoritmo, que suele ser el índice/ubicación del elemento si se encuentra, o un indicador de ausencia (como -1 o null) si no existe.
-            """)
+    with tab_clas:  
+        st.markdown("### Clasificación de algoritmos de búsqueda")
+        st.markdown("**Según la organización y estado de los datos:**[cite: 1]")
+        st.markdown("""
+        * **Búsqueda Lineal (o Secuencial):** Recorre la estructura de datos iterando elemento por elemento de manera consecutiva, comenzando desde la primera posición hasta encontrar una coincidencia exacta o hasta agotar la totalidad de los elementos de la colección. Es independiente del orden previo de los datos[cite: 1].
+        * **Búsqueda Binaria:** Requiere que el conjunto de datos esté previamente ordenado. En cada paso, evalúa el elemento ubicado exactamente en la posición central del rango de búsqueda actual: si coincide con la clave buscada, el proceso finaliza; si la clave es menor o mayor, descarta por completo una de las mitades del conjunto y repite el procedimiento de acotamiento sobre la mitad restante[cite: 1].
+        * **Búsqueda en Estructuras No Lineales (Árboles y Grafos):** Explora colecciones de datos organizadas en jerarquías o redes de nodos interconectados. El recorrido sigue reglas topológicas específicas, como comparar claves en un árbol binario de búsqueda (menores a la izquierda, mayores a la derecha) o recorrer nodos adyacentes sistemáticamente mediante algoritmos de visita en grafos[cite: 1].
+        """)
 
-        with sub_tab3:
-            st.markdown("### Ejemplo de un algoritmo de búsqueda identificando elementos")
-            st.write("Imagina que buscas el número 7 en el siguiente conjunto de datos: `[12, 4, 7, 19, 3]`")
-            st.markdown("""
-            * **Paso 1:** ¿Es 12 igual a 7? No. Se pasa al siguiente.
-            * **Paso 2:** ¿Es 4 igual a 7? No. Se pasa al siguiente.
-            * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar.
-            """)
+        st.markdown("**Según la estrategia de exploración (Ámbito avanzado / Inteligencia Artificial):**[cite: 1]")
+        st.markdown("""
+        * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo[cite: 1].
+        * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional[cite: 1].
+        * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable[cite: 1].
+        """)  
 
-        with sub_tab4:
-            st.markdown("### Clasificación de algoritmos de búsqueda")
-            st.markdown("**Según la organización y estado de los datos:**")
-            st.markdown("""
-            * **Búsqueda Lineal (o Secuencial):** Recorre la estructura de datos iterando elemento por elemento de manera consecutiva, comenzando desde la primera posición hasta encontrar una coincidencia exacta o hasta agotar la totalidad de los elementos de la colección. Es independiente del orden previo de los datos.
-            * **Búsqueda Binaria:** Requiere que el conjunto de datos esté previamente ordenado. En cada paso, evalúa el elemento ubicado exactamente en la posición central del rango de búsqueda actual: si coincide con la clave buscada, el proceso finaliza; si la clave es menor o mayor, descarta por completo una de las mitades del conjunto y repite el procedimiento de acotamiento sobre la mitad restante.
-            * **Búsqueda en Estructuras No Lineales (Árboles y Grafos):** Explora colecciones de datos organizadas en jerarquías o redes de nodos interconectados. El recorrido sigue reglas topológicas específicas, como comparar claves en un árbol binario de búsqueda (menores a la izquierda, mayores a la derecha) o recorrer nodos adyacentes sistemáticamente mediante algoritmos de visita en grafos.
-            """)
-
-            st.markdown("**Según la estrategia de exploración (Ámbito avanzado / Inteligencia Artificial):**")
-            st.markdown("""
-            * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo.
-            * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional.
-            * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable.
-            """)  
-
-    with tab_infografia:  
-        st.write("### Infografía de Algoritmos de Búsqueda")
-        st.write("Aquí puedes colocar el contenido o imagen correspondiente a la infografía.")
-        # mostrar_imagen_centrada("img/infografia_busqueda.jpg")
+    with tab_tabla:  
+        st.markdown("### Tabla comparativa de algoritmos de búsqueda")
+        st.write("Aquí puedes visualizar la tabla comparativa de los algoritmos de búsqueda según sus características principales:")
+        
+        # Ejemplo de tabla estructurada con st.dataframe o markdown
+        import pandas as pd
+        df_comparativa = pd.DataFrame({
+            "Tipo / Algoritmo": ["Búsqueda Lineal", "Búsqueda Binaria", "Búsqueda Ciega", "Búsqueda Informada", "Búsqueda Evolutiva"],
+            "Estado de los datos": ["Desordenados u ordenados", "Obligatoriamente ordenados", "Grafo / Espacio de estados", "Grafo con heurística", "Espacio de soluciones complejas"],
+            "Complejidad / Enfoque": ["O(n) - Secuencial", "O(log n) - Divide y vencerás", "Sistemática (BFS/DFS)", "Usa estimación de distancia", "Simulación genética / Poblacional"]
+        })
+        st.dataframe(df_comparativa, use_container_width=True)
 
 # --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
