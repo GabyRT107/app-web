@@ -512,7 +512,7 @@ elif seccion == "Algoritmos de búsqueda":
         """)  
 
     with tab_tabla:  
-        st.markdown('<div class="main-header">Tabla Comparativa Interactiva: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
+        st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda en la IA</div>', unsafe_allow_html=True)  
         st.markdown('<div class="sub-header">Análisis detallado de funcionamiento, ventajas, desventajas, ejemplos clásicos y aplicaciones prácticas del documento.</div>', unsafe_allow_html=True)
 
         # Diseño estético mediante tarjetas separadas por cada tipo de algoritmo del documento Word
