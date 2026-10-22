@@ -481,7 +481,8 @@ elif seccion == "Algoritmos de búsqueda":
         * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar.
         """)
         
-        mostrar_imagen_centrada("img/Ejemplo.jpg")
+        # Imagen original restaurada para la sección de definición
+        mostrar_imagen_centrada("img/AB.png")
 
     with tab_elem:  
         st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
@@ -513,41 +514,45 @@ elif seccion == "Algoritmos de búsqueda":
 
     with tab_tabla:  
         st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
-        st.markdown('<div class="sub-header">Visualización estructurada, detallada y completa de las estrategias y clasificaciones de búsqueda.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sub-header">Tabla detallada y completa con todas las características y clasificaciones de los algoritmos de búsqueda.</div>', unsafe_allow_html=True)
 
-        col1, col2 = st.columns(2)
+        # Creación de la tabla completa utilizando pandas y st.dataframe
+        df_tabla_comparativa = pd.DataFrame({
+            "Categoría / Tipo": [
+                "Búsqueda Lineal (o Secuencial)", 
+                "Búsqueda Binaria", 
+                "Búsqueda en Estructuras No Lineales", 
+                "Búsqueda Ciega (o No Informada)", 
+                "Búsqueda Informada (o Heurística)", 
+                "Búsqueda Evolutiva (o Metaheurística)"
+            ],
+            "Criterio / Organización": [
+                "Según organización y estado de los datos",
+                "Según organización y estado de los datos",
+                "Según organización y estado de los datos",
+                "Según estrategia de exploración (IA)",
+                "Según estrategia de exploración (IA)",
+                "Según estrategia de exploración (IA)"
+            ],
+            "Funcionamiento Principal": [
+                "Recorre la estructura de datos iterando elemento por elemento de manera consecutiva desde la primera posición hasta hallar coincidencia.",
+                "Requiere datos ordenados. Evalúa el elemento central del rango actual y descarta mitades enteras según sea mayor o menor.",
+                "Explora colecciones de datos organizadas en jerarquías o redes de nodos interconectados (árboles y grafos) mediante reglas topológicas.",
+                "Explora el espacio de soluciones o nodos de manera sistemática siguiendo una secuencia fija predeterminada.",
+                "Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema.",
+                "Simula computacionalmente la selección natural sobre una población iterativa de soluciones candidatas."
+            ],
+            "Características y Aplicación": [
+                "Es totalmente independiente del orden previo de los datos en la colección.",
+                "Altamente eficiente mediante acotamiento iterativo de rangos de búsqueda.",
+                "Emplea reglas como comparar claves en árboles binarios o visitar nodos adyacentes en grafos.",
+                "No utiliza información adicional, métricas de distancia ni conocimiento previo sobre la ubicación del objetivo.",
+                "Calcula la proximidad al objetivo priorizando rutas con mayor probabilidad de éxito computacional.",
+                "Evalúa niveles de aptitud (fitness) y aplica operadores de cruce (crossover) y mutación genética."
+            ]
+        })
 
-        with col1:
-            st.markdown("""
-            <div class="card">
-                <div class="term-title" style="font-size: 1.4rem;">📁 Según la organización y estado de los datos</div>
-                <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
-                    <b>1. Búsqueda Lineal (o Secuencial):</b><br>
-                    • <i>Funcionamiento:</i> Recorre la estructura iterando elemento por elemento de manera consecutiva desde la primera posición hasta hallar coincidencia o agotar la colección.<br>
-                    • <i>Características:</i> Es totalmente independiente del orden previo de los datos.<br><br>
-                    <b>2. Búsqueda Binaria:</b><br>
-                    • <i>Funcionamiento:</i> Requiere que los datos estén previamente ordenados. Evalúa el elemento central y descarta mitades enteras según sea mayor o menor.<br>
-                    • <i>Características:</i> Altamente eficiente mediante acotamiento de rangos.<br><br>
-                    <b>3. Búsqueda en Estructuras No Lineales:</b><br>
-                    • <i>Funcionamiento:</i> Explora datos en jerarquías o redes (árboles y grafos) siguiendo reglas topológicas específicas de visita de nodos.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-            st.markdown("""
-            <div class="card">
-                <div class="term-title" style="font-size: 1.4rem;">🤖 Según la estrategia de exploración (IA)</div>
-                <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
-                    <b>1. Búsqueda Ciega (o No Informada):</b><br>
-                    • <i>Funcionamiento:</i> Explora sistemáticamente siguiendo una secuencia fija predeterminada sin usar información adicional ni conocimiento previo de la ubicación.<br><br>
-                    <b>2. Búsqueda Informada (o Heurística):</b><br>
-                    • <i>Funcionamiento:</i> Incorpora funciones heurísticas o estimaciones matemáticas para calcular la proximidad al objetivo y priorizar rutas con mayor probabilidad de éxito.<br><br>
-                    <b>3. Búsqueda Evolutiva (o Metaheurística):</b><br>
-                    • <i>Funcionamiento:</i> Simula la selección natural sobre poblaciones de soluciones candidatas aplicando operadores de aptitud, cruce y mutación genética.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        st.dataframe(df_tabla_comparativa, use_container_width=True, hide_index=True)
 
 # --- SECCIÓN: GLOSARIO ---
 elif seccion == "Glosario":  
