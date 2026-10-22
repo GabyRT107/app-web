@@ -481,7 +481,7 @@ elif seccion == "Algoritmos de búsqueda":
         """)
         
         # Imagen corregida correctamente
-        mostrar_imagen_centrada("img/AB.png")
+        mostrar_imagen_centrada("img/Ejemplo.jpg")
 
     with tab_elem:  
         st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
