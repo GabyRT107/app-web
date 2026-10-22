@@ -1,6 +1,7 @@
 import streamlit as st  
 import pdfplumber
 from pathlib import Path
+import pandas as pd
 
 # ==========================================
 # 1. CONFIGURACIÓN DE LA PÁGINA
@@ -506,22 +507,54 @@ elif seccion == "Algoritmos de búsqueda":
 
         st.markdown("**Según la estrategia de exploración (Ámbito avanzado / Inteligencia Artificial):**")
         st.markdown("""
-        * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo.
-        * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional.
-        * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable.
+        * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo[cite: 2].
+        * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional[cite: 2].
+        * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable[cite: 2].
         """)  
 
     with tab_tabla:  
         st.markdown("### Tabla comparativa de algoritmos de búsqueda")
-        st.write("Aquí puedes visualizar la tabla comparativa de los algoritmos de búsqueda según sus características principales:")
+        st.write("Aquí puedes visualizar la tabla comparativa completa basada en la clasificación de algoritmos de búsqueda[cite: 2]:")
         
-        # Ejemplo de tabla estructurada con st.dataframe o markdown
-        import pandas as pd
         df_comparativa = pd.DataFrame({
-            "Tipo / Algoritmo": ["Búsqueda Lineal", "Búsqueda Binaria", "Búsqueda Ciega", "Búsqueda Informada", "Búsqueda Evolutiva"],
-            "Estado de los datos": ["Desordenados u ordenados", "Obligatoriamente ordenados", "Grafo / Espacio de estados", "Grafo con heurística", "Espacio de soluciones complejas"],
-            "Complejidad / Enfoque": ["O(n) - Secuencial", "O(log n) - Divide y vencerás", "Sistemática (BFS/DFS)", "Usa estimación de distancia", "Simulación genética / Poblacional"]
+            "Criterio / Estrategia": [
+                "Funcionamiento", 
+                "Ventajas", 
+                "Desventajas", 
+                "Ejemplos Clásicos", 
+                "Dónde se encuentra en IA", 
+                "🎯 Aplicación Práctica", 
+                "Características Principales"
+            ],
+            "Búsqueda Ciega (o No Informada)": [
+                "Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) siguiendo una secuencia fija, sin usar información adicional ni conocimiento previo[cite: 2].",
+                "• Es completa (garantiza encontrar solución si existe).\n• No requiere conocimiento experto previo[cite: 2].",
+                "• Muy ineficiente en espacios grandes.\n• Alto costo computacional (explosión combinatoria)[cite: 2].",
+                "• Búsqueda en Anchura (BFS)\n• Búsqueda en Profundidad (DFS)\n• Costo Uniforme[cite: 2]",
+                "• Resolución de puzzles clásicos (8 números, Cubo de Rubik).\n• Motores de inferencia simples[cite: 2].",
+                "**Web Crawling:** Motores primitivos usaban BFS para indexar hipervínculos de páginas web de forma exhaustiva[cite: 2].",
+                "• Ciega e inflexible.\n• Basada en fuerza bruta.\n• Trata a todos los caminos por igual[cite: 2]."
+            ],
+            "Búsqueda Informada (o Heurística)": [
+                "Incorpora funciones heurísticas o estimaciones matemáticas para calcular la distancia a la meta, priorizando rutas con mayor probabilidad de éxito[cite: 2].",
+                "• Mucho más rápida, directa y eficiente.\n• Reduce drásticamente los nodos explorados mediante pistas lógicas[cite: 2].",
+                "• Su eficiencia depende de la calidad de la heurística; si está mal diseñada, puede ser errónea[cite: 2].",
+                "• Búsqueda A* (A-Star)\n• Búsqueda Voraz Primero el Mejor (Greedy Best-First)[cite: 2]",
+                "• Sistemas de navegación GPS.\n• IA en videojuegos (Pathfinding).\n• Robótica autónoma (rovers)[cite: 2].",
+                "**Sistemas GPS (Google Maps / Waze):** Combinan calles reales con estimaciones matemáticas para hallar la ruta más rápida y esquivar tráfico[cite: 2].",
+                "• Guiada por objetivos y pistas lógicas.\n• Usa estimaciones matemáticas.\n• Inteligente y direccional[cite: 2]."
+            ],
+            "Búsqueda Evolutiva (o Metaheurística)": [
+                "Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética[cite: 2].",
+                "• Excelente para problemas NP-hard complejos y no lineales.\n• Capacidad de escapar de óptimos locales[cite: 2].",
+                "• No garantiza el óptimo global absoluto.\n• Requiere calibrar múltiples parámetros (tasa de mutación, población)[cite: 2].",
+                "• Algoritmos Genéticos (AG)\n• Enjambre de Partículas (PSO)\n• Colonia de Hormigas[cite: 2]",
+                "• Optimización de Hiperparámetros en Machine Learning.\n• Redes Neuronales (NAS).\n• Logística[cite: 2].",
+                "**Logística (VRP):** Simula miles de combinaciones de entrega para minimizar consumo de combustible y costos operativos[cite: 2].",
+                "• Poblacional (múltiples soluciones).\n• Estocástica (aleatoriedad).\n• Basada en mejora iterativa y adaptación[cite: 2]."
+            ]
         })
+        
         st.dataframe(df_comparativa, use_container_width=True)
 
 # --- SECCIÓN: GLOSARIO ---
