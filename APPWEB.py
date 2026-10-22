@@ -499,6 +499,7 @@ elif seccion == "Algoritmos de búsqueda":
         * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional.
         * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable.
         """)
+        mostrar_imagen_centrada("img/IA.jpg")  
 
     with tab_infografia:  
         st.write("### Infografía de Algoritmos de Búsqueda")
