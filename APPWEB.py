@@ -522,7 +522,7 @@ elif seccion == "Algoritmos de búsqueda":
             st.markdown("""
             <div class="card" style="border-top: 5px solid #3B82F6;">
                 <div class="category-tag">Búsqueda 1</div>
-                <div class="term-title" style="font-size: 1.3rem;">🔍 Búsqueda Ciega <br>(o No Informada)</div>
+                <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Ciega <br>(o No Informada)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
                     <b>Funcionamiento:</b><br>
                     Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) siguiendo una secuencia fija predeterminada, sin usar información adicional ni conocimiento previo.<br><br>
@@ -548,7 +548,7 @@ elif seccion == "Algoritmos de búsqueda":
             st.markdown("""
             <div class="card" style="border-top: 5px solid #10B981;">
                 <div class="category-tag">Búsqueda 02</div>
-                <div class="term-title" style="font-size: 1.3rem;">🗺️ Búsqueda Informada <br>(o Heurística)</div>
+                <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Informada <br>(o Heurística)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
                     <b>Funcionamiento:</b><br>
                     Incorpora funciones heurísticas o estimaciones matemáticas para calcular la proximidad al objetivo, priorizando rutas con mayor probabilidad de éxito.<br><br>
@@ -572,7 +572,7 @@ elif seccion == "Algoritmos de búsqueda":
             st.markdown("""
             <div class="card" style="border-top: 5px solid #F59E0B;">
                 <div class="category-tag">Búsqueda 03</div>
-                <div class="term-title" style="font-size: 1.3rem;">🧬 Búsqueda Evolutiva <br>(o Metaheurística)</div>
+                <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Evolutiva <br>(o Metaheurística)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
                     <b>Funcionamiento:</b><br>
                     Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética generacional.<br><br>
