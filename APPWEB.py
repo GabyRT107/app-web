@@ -473,7 +473,7 @@ elif seccion == "Algoritmos de búsqueda":
         st.markdown("### Definición")
         st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial.")
         
-        st.markdown("### Ejemplo ilustrativo")
+        st.markdown("### Ejemplo de un algoritmo de búsqueda identificando elementos")
         st.write("Imagina que buscas el número 7 en el siguiente conjunto de datos: `[12, 4, 7, 19, 3]`")
         st.markdown("""
         * **Paso 1:** ¿Es 12 igual a 7? No. Se pasa al siguiente.
@@ -481,7 +481,7 @@ elif seccion == "Algoritmos de búsqueda":
         * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar.
         """)
         
-        mostrar_imagen_centrada("img/AB.png")
+        mostrar_imagen_centrada("img/Ejemplo.jpg")
 
     with tab_elem:  
         st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
@@ -513,18 +513,23 @@ elif seccion == "Algoritmos de búsqueda":
 
     with tab_tabla:  
         st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
-        st.markdown('<div class="sub-header">Visualización estructurada y detallada de las estrategias de búsqueda.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sub-header">Visualización estructurada, detallada y completa de las estrategias y clasificaciones de búsqueda.</div>', unsafe_allow_html=True)
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
 
         with col1:
             st.markdown("""
             <div class="card">
-                <div class="term-title" style="font-size: 1.3rem;">🔍 Búsqueda Ciega (o No Informada)</div>
+                <div class="term-title" style="font-size: 1.4rem;">📁 Según la organización y estado de los datos</div>
                 <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
-                    <b>Funcionamiento:</b> Explora el espacio de soluciones o nodos de manera sistemática siguiendo una secuencia fija predeterminada, sin utilizar información adicional ni conocimiento previo.<br><br>
-                    <b>Ventajas:</b> Es sistemática y exhaustiva en la exploración.<br><br>
-                    <b>Desventajas:</b> Altamente costosa en tiempo y recursos para espacios complejos.
+                    <b>1. Búsqueda Lineal (o Secuencial):</b><br>
+                    • <i>Funcionamiento:</i> Recorre la estructura iterando elemento por elemento de manera consecutiva desde la primera posición hasta hallar coincidencia o agotar la colección.<br>
+                    • <i>Características:</i> Es totalmente independiente del orden previo de los datos.<br><br>
+                    <b>2. Búsqueda Binaria:</b><br>
+                    • <i>Funcionamiento:</i> Requiere que los datos estén previamente ordenados. Evalúa el elemento central y descarta mitades enteras según sea mayor o menor.<br>
+                    • <i>Características:</i> Altamente eficiente mediante acotamiento de rangos.<br><br>
+                    <b>3. Búsqueda en Estructuras No Lineales:</b><br>
+                    • <i>Funcionamiento:</i> Explora datos en jerarquías o redes (árboles y grafos) siguiendo reglas topológicas específicas de visita de nodos.
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -532,23 +537,14 @@ elif seccion == "Algoritmos de búsqueda":
         with col2:
             st.markdown("""
             <div class="card">
-                <div class="term-title" style="font-size: 1.3rem;">🗺️ Búsqueda Informada (o Heurística)</div>
+                <div class="term-title" style="font-size: 1.4rem;">🤖 Según la estrategia de exploración (IA)</div>
                 <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
-                    <b>Funcionamiento:</b> Incorpora funciones heurísticas y estimaciones matemáticas para calcular qué tan próximo se encuentra un estado respecto al objetivo.<br><br>
-                    <b>Ventajas:</b> Prioriza rutas con mayor probabilidad de éxito computacional.<br><br>
-                    <b>Desventajas:</b> Su eficacia depende de la precisión de la heurística aplicada.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-            st.markdown("""
-            <div class="card">
-                <div class="term-title" style="font-size: 1.3rem;">🧬 Búsqueda Evolutiva (o Metaheurística)</div>
-                <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
-                    <b>Funcionamiento:</b> Simula la selección natural procesando una población de soluciones candidatas mediante cruce y mutación genética.<br><br>
-                    <b>Ventajas:</b> Excelente para resolver espacios de soluciones complejos y masivos.<br><br>
-                    <b>Desventajas:</b> Requiere mayor ajuste iterativo de parámetros de aptitud.
+                    <b>1. Búsqueda Ciega (o No Informada):</b><br>
+                    • <i>Funcionamiento:</i> Explora sistemáticamente siguiendo una secuencia fija predeterminada sin usar información adicional ni conocimiento previo de la ubicación.<br><br>
+                    <b>2. Búsqueda Informada (o Heurística):</b><br>
+                    • <i>Funcionamiento:</i> Incorpora funciones heurísticas o estimaciones matemáticas para calcular la proximidad al objetivo y priorizar rutas con mayor probabilidad de éxito.<br><br>
+                    <b>3. Búsqueda Evolutiva (o Metaheurística):</b><br>
+                    • <i>Funcionamiento:</i> Simula la selección natural sobre poblaciones de soluciones candidatas aplicando operadores de aptitud, cruce y mutación genética.
                 </div>
             </div>
             """, unsafe_allow_html=True)
