@@ -122,38 +122,6 @@ div[data-testid="stImage"] img {
     border-radius: 10px;  
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);  
 }  
-
-/* Estilos para tarjetas de comparación estéticas */
-.algo-card {
-    background-color: #ffffff;
-    border: 1px solid #E2E8F0;
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-}
-.algo-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1E293B;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #F1F5F9;
-}
-.algo-section-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #64748B;
-    margin-top: 12px;
-    margin-bottom: 4px;
-    letter-spacing: 0.05em;
-}
-.algo-text {
-    font-size: 0.95rem;
-    color: #334155;
-    line-height: 1.5;
-}
 </style>  
 """, unsafe_allow_html=True)  
 
@@ -493,7 +461,7 @@ elif seccion == "Algoritmos de búsqueda":
     st.markdown('<div class="main-header">Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
     st.markdown('<div class="sub-header">Información general sobre los algoritmos de búsqueda.</div>', unsafe_allow_html=True)  
 
-    # Pestañas solicitadas separadas individualmente
+    # Pestañas personalizadas solicitadas
     tab_def, tab_elem, tab_clas, tab_tabla = st.tabs([
         "Definición", 
         "Elementos", 
@@ -503,136 +471,86 @@ elif seccion == "Algoritmos de búsqueda":
 
     with tab_def:  
         st.markdown("### Definición")
-        st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial.")
+        st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial[cite: 1].")
         
         st.markdown("### Ejemplo ilustrativo")
-        st.write("Imagina que buscas el número 7 en el siguiente conjunto de datos: `[12, 4, 7, 19, 3]`")
+        st.write("Imagina que buscas el número 7 en el siguiente conjunto de datos: `[12, 4, 7, 19, 3]`[cite: 1]")
         st.markdown("""
-        * **Paso 1:** ¿Es 12 igual a 7? No. Se pasa al siguiente.
-        * **Paso 2:** ¿Es 4 igual a 7? No. Se pasa al siguiente.
-        * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar.
+        * **Paso 1:** ¿Es 12 igual a 7? No. Se pasa al siguiente[cite: 1].
+        * **Paso 2:** ¿Es 4 igual a 7? No. Se pasa al siguiente[cite: 1].
+        * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar[cite: 1].
         """)
         
-        # Imagen corregida correctamente
-        mostrar_imagen_centrada("img/Ejemplo.jpg")
+        # Imagen centrada corregida
+        mostrar_imagen_centrada("img/AB.png")
 
     with tab_elem:  
         st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
         st.markdown("""
-        * **Conjunto de datos (o Espacio de búsqueda):** La colección de datos o la estructura donde se realizará la búsqueda (por ejemplo, un arreglo, lista, árbol o grafo).
-        * **Clave de búsqueda (o Elemento objetivo):** El valor o criterio específico que se desea encontrar.
-        * **Criterio de comparación (o Función de evaluación):** La regla o función que determina si un elemento actual coincide con la clave buscada, o si es mayor/menor para guiar el recorrido.
-        * **Puntero o Índice de posición:** La variable o referencia que indica qué posición o nodo se está examinando en cada momento.
-        * **Estrategia o Regla de tránsito:** La lógica que determina cuál será el siguiente elemento a examinar (por ejemplo, avanzar secuencialmente, dividir el rango a la mitad, o seguir una heurística).
-        * **Condición de parada:** Las reglas que marcan el fin del algoritmo, las cuales son principalmente dos: **Éxito** (se encontró la clave) y **Fallo** (se examinó todo sin encontrar el objetivo).
-        * **Resultado o Retorno:** El valor final devuelto por el algoritmo, que suele ser el índice/ubicación del elemento si se encuentra, o un indicador de ausencia (como -1 o null) si no existe.
+        * **Conjunto de datos (o Espacio de búsqueda):** La colección de datos o la estructura donde se realizará la búsqueda (por ejemplo, un arreglo, lista, árbol o grafo)[cite: 1].
+        * **Clave de búsqueda (o Elemento objetivo):** El valor o criterio específico que se desea encontrar[cite: 1].
+        * **Criterio de comparación (o Función de evaluación):** La regla o función que determina si un elemento actual coincide con la clave buscada, o si es mayor/menor para guiar el recorrido[cite: 1].
+        * **Puntero o Índice de posición:** La variable o referencia que indica qué posición o nodo se está examinando en cada momento[cite: 1].
+        * **Estrategia o Regla de tránsito:** La lógica que determina cuál será el siguiente elemento a examinar (por ejemplo, avanzar secuencialmente, dividir el rango a la mitad, o seguir una heurística)[cite: 1].
+        * **Condición de parada:** Las reglas que marcan el fin del algoritmo, las cuales son principalmente dos: **Éxito** (se encontró la clave) y **Fallo** (se examinó todo sin encontrar el objetivo)[cite: 1].
+        * **Resultado o Retorno:** El valor final devuelto por el algoritmo, que suele ser el índice/ubicación del elemento si se encuentra, o un indicador de ausencia (como -1 o null) si no existe[cite: 1].
         """)
 
     with tab_clas:  
         st.markdown("### Clasificación de algoritmos de búsqueda")
-        st.markdown("**Según la organización y estado de los datos:**")
+        st.markdown("**Según la organización y estado de los datos:**[cite: 1]")
         st.markdown("""
-        * **Búsqueda Lineal (o Secuencial):** Recorre la estructura de datos iterando elemento por elemento de manera consecutiva, comenzando desde la primera posición hasta encontrar una coincidencia exacta o hasta agotar la totalidad de los elementos de la colección. Es independiente del orden previo de los datos.
-        * **Búsqueda Binaria:** Requiere que el conjunto de datos esté previamente ordenado. En cada paso, evalúa el elemento ubicado exactamente en la posición central del rango de búsqueda actual: si coincide con la clave buscada, el proceso finaliza; si la clave es menor o mayor, descarta por completo una de las mitades del conjunto y repite el procedimiento de acotamiento sobre la mitad restante.
-        * **Búsqueda en Estructuras No Lineales (Árboles y Grafos):** Explora colecciones de datos organizadas en jerarquías o redes de nodos interconectados. El recorrido sigue reglas topológicas específicas, como comparar claves en un árbol binario de búsqueda (menores a la izquierda, mayores a la derecha) o recorrer nodos adyacentes sistemáticamente mediante algoritmos de visita en grafos.
+        * **Búsqueda Lineal (o Secuencial):** Recorre la estructura de datos iterando elemento por elemento de manera consecutiva, comenzando desde la primera posición hasta encontrar una coincidencia exacta o hasta agotar la totalidad de los elementos de la colección. Es independiente del orden previo de los datos[cite: 1].
+        * **Búsqueda Binaria:** Requiere que el conjunto de datos esté previamente ordenado. En cada paso, evalúa el elemento ubicado exactamente en la posición central del rango de búsqueda actual: si coincide con la clave buscada, el proceso finaliza; si la clave es menor o mayor, descarta por completo una de las mitades del conjunto y repite el procedimiento de acotamiento sobre la mitad restante[cite: 1].
+        * **Búsqueda en Estructuras No Lineales (Árboles y Grafos):** Explora colecciones de datos organizadas en jerarquías o redes de nodos interconectados. El recorrido sigue reglas topológicas específicas, como comparar claves en un árbol binario de búsqueda (menores a la izquierda, mayores a la derecha) o recorrer nodos adyacentes sistemáticamente mediante algoritmos de visita en grafos[cite: 1].
         """)
 
-        st.markdown("**Según la estrategia de exploración (Ámbito avanzado / Inteligencia Artificial):**")
+        st.markdown("**Según la estrategia de exploración (Ámbito avanzado / Inteligencia Artificial):**[cite: 1]")
         st.markdown("""
-        * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo[cite: 2].
-        * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional[cite: 2].
-        * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable[cite: 2].
+        * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo[cite: 1].
+        * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional[cite: 1].
+        * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable[cite: 1].
         """)  
 
     with tab_tabla:  
-        st.markdown("### Tabla Comparativa: Clasificación de Algoritmos de Búsqueda")
-        st.markdown("Visualización estructurada y detallada de las estrategias de búsqueda[cite: 2].")
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
+        st.markdown('<div class="sub-header">Visualización estructurada y detallada de las estrategias de búsqueda[cite: 2].</div>', unsafe_allow_html=True)
 
-        # Diseño estético en 3 columnas responsivas y limpias
-        col_c1, col_c2, col_c3 = st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
-        with col_c1:
+        with col1:
             st.markdown("""
-            <div class="algo-card">
-                <div class="algo-title" style="color: #0369A1;">🔍 Búsqueda Ciega (o No Informada)</div>
-                
-                <div class="algo-section-title">Funcionamiento</div>
-                <div class="algo-text">Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) con secuencia fija, sin información adicional ni conocimiento previo[cite: 2].</div>
-                
-                <div class="algo-section-title">Ventajas</div>
-                <div class="algo-text">• Es completa (garantiza solución si existe).<br>• No requiere conocimientos previos[cite: 2].</div>
-                
-                <div class="algo-section-title">Desventajas</div>
-                <div class="algo-text">• Muy ineficiente en espacios grandes.<br>• Alto costo computacional (explosión combinatoria)[cite: 2].</div>
-                
-                <div class="algo-section-title">Ejemplos Clásicos</div>
-                <div class="algo-text">• Búsqueda en Anchura (BFS)<br>• Búsqueda en Profundidad (DFS)<br>• Costo Uniforme[cite: 2].</div>
-                
-                <div class="algo-section-title">Dónde se encuentra en IA</div>
-                <div class="algo-text">• Puzzles clásicos (8 números, Cubo de Rubik).<br>• Motores de inferencia simples[cite: 2].</div>
-                
-                <div class="algo-section-title">🎯 Aplicación Práctica</div>
-                <div class="algo-text"><b>Web Crawling:</b> Motores primitivos usaban BFS para indexar hipervínculos de páginas de forma exhaustiva[cite: 2].</div>
-                
-                <div class="algo-section-title">Características Principales</div>
-                <div class="algo-text">• Ciega e inflexible.<br>• Basada en fuerza bruta.<br>• Trata a todos los caminos por igual[cite: 2].</div>
+            <div class="card">
+                <div class="term-title" style="font-size: 1.3rem;">🔍 Búsqueda Ciega (o No Informada)</div>
+                <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
+                    <b>Funcionamiento:</b> Explora el espacio de soluciones o nodos de manera sistemática siguiendo una secuencia fija predeterminada, sin utilizar información adicional ni conocimiento previo.<br><br>
+                    <b>Ventajas:</b> Es sistemática y exhaustiva en la exploración.<br><br>
+                    <b>Desventajas:</b> Altamente costosa en tiempo y recursos para espacios complejos.
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
-        with col_c2:
+        with col2:
             st.markdown("""
-            <div class="algo-card">
-                <div class="algo-title" style="color: #15803D;">🗺️ Búsqueda Informada (o Heurística)</div>
-                
-                <div class="algo-section-title">Funcionamiento</div>
-                <div class="algo-text">Incorpora funciones heurísticas o estimaciones matemáticas para calcular la distancia a la meta, priorizando rutas con mayor probabilidad de éxito[cite: 2].</div>
-                
-                <div class="algo-section-title">Ventajas</div>
-                <div class="algo-text">• Mucho más rápida, directa y eficiente.<br>• Reduce drásticamente los nodos explorados con pistas lógicas[cite: 2].</div>
-                
-                <div class="algo-section-title">Desventajas</div>
-                <div class="algo-text">• Su eficiencia depende enteramente de la calidad de la heurística diseñada[cite: 2].</div>
-                
-                <div class="algo-section-title">Ejemplos Clásicos</div>
-                <div class="algo-text">• Búsqueda A* (A-Star)<br>• Búsqueda Voraz Primero el Mejor (Greedy Best-First)[cite: 2].</div>
-                
-                <div class="algo-section-title">Dónde se encuentra en IA</div>
-                <div class="algo-text">• Sistemas de navegación GPS.<br>• IA en videojuegos (Pathfinding).<br>• Robótica autónoma (rovers)[cite: 2].</div>
-                
-                <div class="algo-section-title">🎯 Aplicación Práctica</div>
-                <div class="algo-text"><b>Sistemas GPS (Google Maps / Waze):</b> Combinan calles reales con estimaciones matemáticas para hallar rutas rápidas y esquivar tráfico[cite: 2].</div>
-                
-                <div class="algo-section-title">Características Principales</div>
-                <div class="algo-text">• Guiada por objetivos y pistas lógicas.<br>• Usa estimaciones matemáticas.<br>• Inteligente y direccional[cite: 2].</div>
+            <div class="card">
+                <div class="term-title" style="font-size: 1.3rem;">🗺️ Búsqueda Informada (o Heurística)</div>
+                <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
+                    <b>Funcionamiento:</b> Incorpora funciones heurísticas y estimaciones matemáticas para calcular qué tan próximo se encuentra un estado respecto al objetivo.<br><br>
+                    <b>Ventajas:</b> Prioriza rutas con mayor probabilidad de éxito computacional.<br><br>
+                    <b>Desventajas:</b> Su eficacia depende de la precisión de la heurística aplicada.
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
-        with col_c3:
+        with col3:
             st.markdown("""
-            <div class="algo-card">
-                <div class="algo-title" style="color: #C2410C;">🧬 Búsqueda Evolutiva (o Metaheurística)</div>
-                
-                <div class="algo-section-title">Funcionamiento</div>
-                <div class="algo-text">Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética[cite: 2].</div>
-                
-                <div class="algo-section-title">Ventajas</div>
-                <div class="algo-text">• Excelente para problemas complejos no lineales (NP-hard).<br>• Capacidad de escapar de óptimos locales[cite: 2].</div>
-                
-                <div class="algo-section-title">Desventajas</div>
-                <div class="algo-text">• No garantiza el óptimo global absoluto.<br>• Requiere calibrar múltiples parámetros (tasa de mutación, población)[cite: 2].</div>
-                
-                <div class="algo-section-title">Ejemplos Clásicos</div>
-                <div class="algo-text">• Algoritmos Genéticos (AG)<br>• Enjambre de Partículas (PSO)<br>• Colonia de Hormigas[cite: 2].</div>
-                
-                <div class="algo-section-title">Dónde se encuentra en IA</div>
-                <div class="algo-text">• Hiperparámetros en Machine Learning.<br>• Redes Neuronales (NAS).<br>• Gestión de cadenas de suministro[cite: 2].</div>
-                
-                <div class="algo-section-title">🎯 Aplicación Práctica</div>
-                <div class="algo-text"><b>Logística (VRP):</b> Simula miles de combinaciones para flotas de camiones, hallando rutas que minimizan combustible[cite: 2].</div>
-                
-                <div class="algo-section-title">Características Principales</div>
-                <div class="algo-text">• Poblacional (múltiples soluciones).<br>• Estocástica (aleatoriedad).<br>• Basada en mejora iterativa[cite: 2].</div>
+            <div class="card">
+                <div class="term-title" style="font-size: 1.3rem;">🧬 Búsqueda Evolutiva (o Metaheurística)</div>
+                <div class="term-desc" style="font-size: 0.95rem; margin-top: 10px;">
+                    <b>Funcionamiento:</b> Simula la selección natural procesando una población de soluciones candidatas mediante cruce y mutación genética.<br><br>
+                    <b>Ventajas:</b> Excelente para resolver espacios de soluciones complejos y masivos.<br><br>
+                    <b>Desventajas:</b> Requiere mayor ajuste iterativo de parámetros de aptitud.
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
