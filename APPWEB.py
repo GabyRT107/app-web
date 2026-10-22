@@ -463,10 +463,10 @@ elif seccion == "Algoritmos de búsqueda":
     tab_investigacion, tab_infografia = st.tabs(["Investigación", "Infografía"])  
 
     with tab_investigacion:  
-        st.markdown("### 🔍 Definición")
+        st.markdown("### Definición")
         st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial[cite: 1].")
         
-        st.markdown("### 🧩 Elementos que intervienen en un algoritmo de búsqueda")
+        st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
         st.markdown("""
         * **Conjunto de datos (o Espacio de búsqueda):** La colección de datos o la estructura donde se realizará la búsqueda (por ejemplo, un arreglo, lista, árbol o grafo)[cite: 1].
         * **Clave de búsqueda (o Elemento objetivo):** El valor o criterio específico que se desea encontrar[cite: 1].
@@ -477,7 +477,7 @@ elif seccion == "Algoritmos de búsqueda":
         * **Resultado o Retorno:** El valor final devuelto por el algoritmo, que suele ser el índice/ubicación del elemento si se encuentra, o un indicador de ausencia (como -1 o null) si no existe[cite: 1].
         """)
 
-        st.markdown("### 💡 Ejemplo de un algoritmo de búsqueda identificando elementos")
+        st.markdown("### Ejemplo de un algoritmo de búsqueda identificando elementos")
         st.write("Imagina que buscas el número 7 en el siguiente conjunto de datos: `[12, 4, 7, 19, 3]`[cite: 1]")
         st.markdown("""
         * **Paso 1:** ¿Es 12 igual a 7? No. Se pasa al siguiente[cite: 1].
@@ -485,7 +485,7 @@ elif seccion == "Algoritmos de búsqueda":
         * **Paso 3:** ¿Es 7 igual a 7? Sí. Se detiene la búsqueda y se informa que el elemento está en la posición 2 (contando desde cero) o en el tercer lugar[cite: 1].
         """)
 
-        st.markdown("### 📊 Clasificación de algoritmos de búsqueda")
+        st.markdown("### Clasificación de algoritmos de búsqueda")
         st.markdown("**Según la organización y estado de los datos:**[cite: 1]")
         st.markdown("""
         * **Búsqueda Lineal (o Secuencial):** Recorre la estructura de datos iterando elemento por elemento de manera consecutiva, comenzando desde la primera posición hasta encontrar una coincidencia exacta o hasta agotar la totalidad de los elementos de la colección. Es independiente del orden previo de los datos[cite: 1].
