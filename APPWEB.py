@@ -465,6 +465,7 @@ elif seccion == "Algoritmos de búsqueda":
     with tab_investigacion:  
         st.markdown("### Definición")
         st.write("Un algoritmo de búsqueda es una técnica utilizada para localizar datos específicos dentro de un conjunto de datos, un concepto fundacional de la informática aplicable a campos como los motores de búsqueda, las bases de datos y la inteligencia artificial.")
+        strar_imagen_centrada("img/AB.png")
         
         st.markdown("### Elementos que intervienen en un algoritmo de búsqueda")
         st.markdown("""
@@ -498,8 +499,7 @@ elif seccion == "Algoritmos de búsqueda":
         * **Búsqueda Ciega (o No Informada):** Explora el espacio de soluciones o nodos de manera sistemática (por ejemplo, nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo.
         * **Búsqueda Informada (o Heurística):** Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema. Esto permite calcular qué tan próximo se encuentra un estado respecto al objetivo, priorizando y explorando primero las rutas o caminos que presentan mayor probabilidad de éxito computacional.
         * **Búsqueda Evolutiva (o Metaheurística):** Se emplea en espacios de soluciones complejos y de gran magnitud para encontrar configuraciones óptimas mediante la simulación computacional de la selección natural. Procesa iterativamente una población de soluciones candidatas, evalúa su nivel de aptitud (fitness), selecciona a las de mejor rendimiento y aplica operadores de cruce (crossover) y mutación genética a lo largo de sucesivas generaciones hasta converger en una solución viable.
-        """)
-        mostrar_imagen_centrada("img/IA.jpg")  
+        """)  
 
     with tab_infografia:  
         st.write("### Infografía de Algoritmos de Búsqueda")
