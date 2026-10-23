@@ -512,8 +512,8 @@ elif seccion == "Algoritmos de búsqueda":
         """)  
 
     with tab_tabla:  
-        st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda en la IA</div>', unsafe_allow_html=True)  
-        st.markdown('<div class="sub-header">Análisis detallado de funcionamiento, ventajas, desventajas, ejemplos clásicos y aplicaciones prácticas del documento.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="main-header">Tabla Comparativa: Clasificación de Algoritmos de Búsqueda</div>', unsafe_allow_html=True)  
+        st.markdown('<div class="sub-header">Análisis detallado de funcionamiento, ventajas, desventajas, ejemplos clásicos, aplicaciones prácticas y características principales del documento.</div>', unsafe_allow_html=True)
 
         # Diseño estético mediante tarjetas separadas por cada tipo de algoritmo del documento Word
         col1, col2, col3 = st.columns(3)
@@ -521,25 +521,29 @@ elif seccion == "Algoritmos de búsqueda":
         with col1:
             st.markdown("""
             <div class="card" style="border-top: 5px solid #3B82F6;">
-                <div class="category-tag">Búsqueda 01</div>
-                <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Ciega <br>(o No Informada)</div>
+                <div class="category-tag">Estrategia 01</div>
+                <div class="term-title" style="font-size: 1.3rem;">🔍 Búsqueda Ciega <br>(o No Informada)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
-                    <b>Funcionamiento:</b><br>
-                    Explora el espacio de soluciones de manera sistemática (nivel por nivel o rama por rama) siguiendo una secuencia fija predeterminada, sin usar información adicional ni conocimiento previo.<br><br>
-                    <b>Ventajas:</b><br>
-                    • Es completa (garantiza solución si existe).<br>
-                    • No requiere conocimiento experto previo.<br><br>
-                    <b>Desventajas:</b><br>
-                    • Muy ineficiente en espacios grandes.<br>
-                    • Alto costo computacional (explosión combinatoria).<br><br>
-                    <b>Ejemplos Clásicos:</b><br>
+                    <b>⚙️ Funcionamiento:</b><br>
+                    Explora el espacio de soluciones o nodos de manera sistemática (nivel por nivel o siguiendo una rama hasta el fondo) siguiendo una secuencia fija predeterminada, sin utilizar ningún tipo de información adicional, métrica de distancia o conocimiento previo sobre la ubicación del objetivo.<br><br>
+                    <b>✅ Ventajas:</b><br>
+                    • Es completa (garantiza encontrar una solución si existe, como el caso de la búsqueda en anchura).<br>
+                    • No requiere conocimiento experto previo sobre el problema a resolver.<br><br>
+                    <b>❌ Desventajas:</b><br>
+                    • Muy ineficiente en espacios de soluciones grandes.<br>
+                    • Alto costo computacional en tiempo y memoria (sufre de explosión combinatoria).<br><br>
+                    <b>🧩 Ejemplos Clásicos:</b><br>
                     • Búsqueda en Anchura (BFS)<br>
                     • Búsqueda en Profundidad (DFS)<br>
-                    • Costo Uniforme.<br><br>
-                    <b>Dónde se encuentra en IA:</b><br>
-                    Resolución de puzzles clásicos (8 números, Cubo de Rubik) y sistemas expertos simples.<br><br>
-                    <b>Aplicación Práctica:</b><br>
-                    <b>Web Crawling:</b> Motores de búsqueda primitivos usaban BFS para indexar páginas web recorriendo hipervínculos exhaustivamente.
+                    • Búsqueda de Costo Uniforme.<br><br>
+                    <b>📍 Dónde se encuentra en IA:</b><br>
+                    Resolución de puzzles clásicos (Juego de los 8 números o cubos de Rubik básicos) y motores de inferencia simples en sistemas expertos.<br><br>
+                    <b>🎯 Aplicación Práctica:</b><br>
+                    <b>Web Crawling (Rastreo Web):</b> Los motores de búsqueda primitivos y robots de indexación utilizaban BFS para recorrer hipervínculos de páginas web de forma sistemática y exhaustiva.<br><br>
+                    <b>📌 Características Principales:</b><br>
+                    • Ciega e inflexible.<br>
+                    • Basada puramente en fuerza bruta y orden predeterminado.<br>
+                    • Trata a todos los caminos por igual al inicio.
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -547,23 +551,27 @@ elif seccion == "Algoritmos de búsqueda":
         with col2:
             st.markdown("""
             <div class="card" style="border-top: 5px solid #10B981;">
-                <div class="category-tag">Búsqueda 02</div>
-                <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Informada <br>(o Heurística)</div>
+                <div class="category-tag">Estrategia 02</div>
+                <div class="term-title" style="font-size: 1.3rem;">🗺️ Búsqueda Informada <br>(o Heurística)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
-                    <b>Funcionamiento:</b><br>
-                    Incorpora funciones heurísticas o estimaciones matemáticas para calcular la proximidad al objetivo, priorizando rutas con mayor probabilidad de éxito.<br><br>
-                    <b>Ventajas:</b><br>
-                    • Mucho más rápida, directa y eficiente.<br>
-                    • Reduce nodos explorados mediante pistas lógicas.<br><br>
-                    <b>Desventajas:</b><br>
-                    • Su eficiencia depende de la calidad de la heurística. Si está mal diseñada, falla o se vuelve imprecisa.<br><br>
-                    <b>Ejemplos Clásicos:</b><br>
+                    <b>⚙️ Funcionamiento:</b><br>
+                    Incorpora funciones heurísticas o estimaciones matemáticas basadas en las características del problema para calcular la proximidad al objetivo, priorizando y explorando primero las rutas con mayor probabilidad de éxito.<br><br>
+                    <b>✅ Ventajas:</b><br>
+                    • Mucho más rápida, directa y eficiente que la búsqueda ciega.<br>
+                    • Reduce drásticamente la cantidad de nodos explorados gracias al uso de pistas lógicas o matemáticas.<br><br>
+                    <b>❌ Desventajas:</b><br>
+                    • Su eficiencia depende enteramente de la calidad de la heurística. Si está mal diseñada, puede volverse ineficiente o conducir a resultados erróneos.<br><br>
+                    <b>🧩 Ejemplos Clásicos:</b><br>
                     • Búsqueda A* (A-Star)<br>
-                    • Greedy Best-First Search.<br><br>
-                    <b>Dónde se encuentra en IA:</b><br>
-                    Sistemas GPS, pathfinding en videojuegos y robótica autónoma (rovers espaciales).<br><br>
-                    <b>Aplicación Práctica:</b><br>
-                    <b>Google Maps / Waze:</b> Combinan distancias reales de calles con matemáticas para calcular rutas rápidas y esquivar tráfico.
+                    • Búsqueda Voraz Primero el Mejor (Greedy Best-First Search).<br><br>
+                    <b>📍 Dónde se encuentra en IA:</b><br>
+                    Sistemas de navegación y mapeo GPS, inteligencia artificial en videojuegos (pathfinding) y robótica autónoma (rovers en Marte).<br><br>
+                    <b>🎯 Aplicación Práctica:</b><br>
+                    <b>Sistemas de navegación en tiempo real (Google Maps / Waze):</b> Aplican algoritmos de búsqueda informada para calcular la ruta más rápida combinando distancia real y estimaciones matemáticas.<br><br>
+                    <b>📌 Características Principales:</b><br>
+                    • Guiada por objetivos y pistas lógicas.<br>
+                    • Usa estimaciones matemáticas.<br>
+                    • Inteligente y direccional (busca el camino más corto o probable).
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -571,25 +579,29 @@ elif seccion == "Algoritmos de búsqueda":
         with col3:
             st.markdown("""
             <div class="card" style="border-top: 5px solid #F59E0B;">
-                <div class="category-tag">Búsqueda 03</div>
-                <div class="term-title" style="font-size: 1.3rem;"> Búsqueda Evolutiva <br>(o Metaheurística)</div>
+                <div class="category-tag">Estrategia 03</div>
+                <div class="term-title" style="font-size: 1.3rem;">🧬 Búsqueda Evolutiva <br>(o Metaheurística)</div>
                 <div class="term-desc" style="font-size: 0.9rem; margin-top: 10px;">
-                    <b>Funcionamiento:</b><br>
-                    Simula la selección natural procesando poblaciones de soluciones candidatas, evaluando su aptitud (fitness) y aplicando cruce y mutación genética generacional.<br><br>
-                    <b>Ventajas:</b><br>
-                    • Ideal para problemas masivos no lineales (NP-hard).<br>
+                    <b>⚙️ Funcionamiento:</b><br>
+                    Se emplea en espacios de soluciones complejos y de gran magnitud mediante la simulación computacional de la selección natural, procesando poblaciones iterativas de soluciones candidatas evaluadas por su aptitud (fitness).<br><br>
+                    <b>✅ Ventajas:</b><br>
+                    • Excelente para problemas complejos no lineales o NP-hard donde los métodos tradicionales fallan.<br>
                     • Capacidad de escapar de óptimos locales.<br><br>
-                    <b>Desventajas:</b><br>
-                    • No garantiza el óptimo absoluto global.<br>
-                    • Requiere calibrar múltiples parámetros técnicos.<br><br>
-                    <b>Ejemplos Clásicos:</b><br>
+                    <b>❌ Desventajas:</b><br>
+                    • No garantiza encontrar el óptimo global absoluto, sino una solución "suficientemente buena".<br>
+                    • Requiere calibrar cuidadosamente múltiples parámetros técnicos.<br><br>
+                    <b>🧩 Ejemplos Clásicos:</b><br>
                     • Algoritmos Genéticos (AG)<br>
-                    • Enjambre de Partículas (PSO)<br>
-                    • Colonia de Hormigas.<br><br>
-                    <b>Dónde se encuentra en IA:</b><br>
-                    Optimización de hiperparámetros, NAS en redes neuronales y gestión de cadenas de suministro.<br><br>
-                    <b>Aplicación Práctica:</b><br>
-                    <b>Logística y VRP:</b> Simulación masiva de combinaciones para flotas de camiones maximizando ahorro de combustible y tiempos de entrega.
+                    • Optimización por Enjambre de Partículas (PSO)<br>
+                    • Algoritmo de Colonia de Hormigas.<br><br>
+                    <b>📍 Dónde se encuentra en IA:</b><br>
+                    Optimización de hiperparámetros en Machine Learning, diseño automático de redes neuronales (NAS) y gestión de supply chain.<br><br>
+                    <b>🎯 Aplicación Práctica:</b><br>
+                    <b>Optimización de rutas (Problema del Viajante / VRP):</b> Empresas de paquetería global simulan miles de combinaciones de entrega para minimizar combustible y tiempos.<br><br>
+                    <b>📌 Características Principales:</b><br>
+                    • Poblacional (trabaja con múltiples soluciones a la vez).<br>
+                    • Estocástica (incorpora aleatoriedad).<br>
+                    • Basada en mejora iterativa y adaptación generacional.
                 </div>
             </div>
             """, unsafe_allow_html=True)
